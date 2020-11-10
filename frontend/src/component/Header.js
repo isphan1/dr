@@ -1,5 +1,5 @@
 import React from 'react'
-import {AppBar,Toolbar,IconButton,MenuItem,Menu, makeStyles,Grid, Badge, InputBase} from '@material-ui/core'
+import {AppBar,Toolbar,IconButton,MenuItem,Menu, makeStyles,Grid, Badge, InputBase, SwipeableDrawer} from '@material-ui/core'
 import {Menu as MenuIcon,Settings,Message,Notifications, Search} from '@material-ui/icons'
 import { Link } from 'react-router-dom'
 
@@ -42,6 +42,7 @@ const useStyles = makeStyles(theme=>({
         }
     },
     menuLink:{
+        paddingRight:"100%",
         textDecoration:"none",
         color:"#000",
     },
@@ -59,6 +60,16 @@ const useStyles = makeStyles(theme=>({
 export default function Header() {
     const classes = useStyles()
     const [anchorEl, setAnchorEl] = React.useState(null);
+
+    const [open, setOpen] = React.useState(false);
+
+    const handleDrawerOpen = () => {
+      setOpen(true);
+    };
+  
+    const handleDrawerClose = () => {
+      setOpen(false);
+    };
 
     const handleClick = (event) => {
       setAnchorEl(event.currentTarget);
@@ -79,7 +90,7 @@ export default function Header() {
                                 placeholder="search" 
                                 startAdornment={<Search fontSize="small"/>}/>
 
-                            <IconButton className={classes.menuIcon}>
+                            <IconButton className={classes.menuIcon} onClick={handleDrawerOpen}>
                                 <MenuIcon/>
                             </IconButton>
                         </Grid>
@@ -114,6 +125,15 @@ export default function Header() {
                 <MenuItem dense	 className={classes.menuItem} onClick={handleClose}><Link to="/a" className={classes.menuLink}>My account</Link></MenuItem>
                 <MenuItem dense	 className={classes.menuItem} onClick={handleClose}><Link to="/data" className={classes.menuLink}>Logout</Link></MenuItem>
             </Menu> 
+
+            <SwipeableDrawer
+                anchor="left"
+                open={open}
+                onOpen={()=>handleDrawerOpen()}
+                onClose={()=>handleDrawerClose()}
+            >
+                    <p style={{width:"220px"}}>Swipr</p>
+            </SwipeableDrawer>
         </>
     )
 }
