@@ -16,4 +16,4 @@ def leads(N):
             Lead.objects.create(title=title,body=body)
 
 
-leads(5)
+leads(10)
