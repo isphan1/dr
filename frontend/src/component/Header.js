@@ -226,7 +226,7 @@ function Header({leads,clearCart,cart,removeCart,logout,history,leadSearch}) {
             <ListItemIcon>
               <Inbox />
             </ListItemIcon>
-            <ListItemText primary="Drafts" />
+            <ListItemText primary="News" />
           </ListItem>
           </Link>
         </List>

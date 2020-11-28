@@ -32,6 +32,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    # 'grappelli.dashboard',
+    'grappelli',
+    # 'jet',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -131,3 +134,5 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, './frontend/build/static'),
 ]
 
+STATIC_ROOT = os.path.join(BASE_DIR,'assets')
+GRAPPELLI_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'

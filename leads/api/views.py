@@ -5,7 +5,7 @@ from leads.models import Lead
 
 class GetLeads(ListAPIView,RetrieveModelMixin):
 
-    queryset = Lead.objects.all()[:50]
+    queryset = Lead.objects.all()
     serializer_class = LeadSerializer
 
 class LeadDetailView(RetrieveAPIView):

@@ -1,6 +1,8 @@
 import {GET_LEADS,ADD_LEAD} from './types'
 import axios from 'axios'
 
+import faker from 'faker'
+
 export const getData = leads =>{
     return{
         type:GET_LEADS,
@@ -33,10 +35,12 @@ export const getLeads = dispatch =>{
 
     export const addLead = dispatch =>{
         let id = Math.floor(Math.random()*100000)
+        let title = faker.lorem.sentence()
+        let body = faker.lorem.paragraph()
         dispatch(addData({
             id:id,
-            title:"new lead",
-            body:"all leads"
+            title:title,
+            body:body,
         }))
     }
 

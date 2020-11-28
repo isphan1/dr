@@ -47,7 +47,7 @@ export default function SideNav() {
             <ListItemIcon>
               <Inbox />
             </ListItemIcon>
-            <ListItemText primary="Drafts" />
+            <ListItemText primary="News" />
           </ListItem>
           </Link>
         </List>
