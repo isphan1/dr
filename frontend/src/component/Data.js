@@ -15,7 +15,7 @@ function Data({data,addLead,addCart,leadSearch}) {
     document.title = "Dashboard of the system"
     const [leads,setData] = useState(data.leads)
     const [currentPage,setCurrentPage] = useState(1)
-    const [postPerPage] = useState(50)
+    const [postPerPage] = useState(6)
 
     React.useEffect(()=>{
         leadSearch("")

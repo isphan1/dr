@@ -37,11 +37,25 @@ export const getLeads = dispatch =>{
         let id = Math.floor(Math.random()*100000)
         let title = faker.lorem.sentence()
         let body = faker.lorem.paragraph()
-        dispatch(addData({
-            id:id,
-            title:title,
-            body:body,
-        }))
+
+        axios({
+            method:"post",
+            url:"http://127.0.0.1:8000/api/create/",
+            data:{'title':title,'body':body},
+            headers:{
+                "content-type": "application/json",
+            }
+            })
+            .then(res=>{
+                dispatch(addData({
+                    id:id,
+                    title:title,
+                    body:body,
+                }))
+            })
+            .catch(err=>{
+                console.log(err)
+            })
     }
 
     export const login = dispatch =>{

@@ -1,16 +1,16 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import { login } from '../redux/lead/actions'
-import { Button, Card, CardContent, Grid, TextField,Typography,makeStyles } from '@material-ui/core'
+import { Button, Card, CardContent, Grid, TextField,Typography } from '@material-ui/core'
 import {useForm,Controller} from 'react-hook-form'
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from "yup";
+// import { yupResolver } from '@hookform/resolvers/yup';
+// import * as yup from "yup";
 import ErrorMessage from './ErrorMessage'
 
-const schema = yup.object().shape({
+// const schema = yup.object().shape({
 //   username: yup.string().email('invalid').required(),
 //   password: yup.number().positive().integer().required(),
-});
+// });
 
 // const useStyles = makeStyles(theme=>({
 //     inputDesign:{
@@ -37,7 +37,7 @@ function Login(props) {
     return (
         <>
             <Grid container justify="center" style={{height:"90vh"}}>
-                <Card style={{width:"320px",height:"300px",textAlign:"center",marginTop:"100px"}}>
+                <Card style={{width:"320px",background:"#ccc",height:"400px",textAlign:"center",marginTop:"100px"}}>
                     <CardContent>
                         <Typography style={{marginBottom:"15px"}} variant="h4">SING IN</Typography>
 
