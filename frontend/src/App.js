@@ -5,6 +5,7 @@ import { Provider } from "react-redux";
 import { store, persistor } from "./redux/store";
 import { PersistGate } from "redux-persist/integration/react";
 import PrivateRoute from './component/PrivateRoute';
+import theme from './component/Theme'
 
 import Detail from "./component/Detail";
 import Home from "./component/Home";
@@ -13,6 +14,8 @@ import publicLayout from "./layout/publicLayout";
 import authLayout from "./layout/authLayout";
 import ProtectedRoute from "./component/ProtectedRoute";
 import GridDesign from "./component/GridDesign";
+import Upwork from "./component/Upwork";
+import { ThemeProvider } from "@material-ui/core";
 
 const pages= [
   {
@@ -49,6 +52,13 @@ const pages= [
     path:"/grid",
     component:GridDesign,
     layout:publicLayout,
+  },
+  {
+    exect:true,
+    Route:Route,
+    path:"/upwork",
+    component:Upwork,
+    layout:publicLayout,
   }
 ]
 
@@ -56,6 +66,7 @@ function App() {
 
   return (
     <>
+    <ThemeProvider theme={theme}>
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <Router>
@@ -92,6 +103,7 @@ function App() {
           </Router>
         </PersistGate>
       </Provider>
+      </ThemeProvider>
     </>
   );
 }
