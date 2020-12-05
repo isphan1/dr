@@ -39,9 +39,9 @@ const useStyles = makeStyles(theme=>({
             // }
       },
       menuLink:{
-          color:"#000",
+          color:"#656565",
           textDecoration:"none",
-          fontSize:"14px",
+          fontSize:"13px",
           fontWeight:"700",
           [theme.breakpoints.down('md')]:{
             fontSize:"12px",

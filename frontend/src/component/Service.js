@@ -5,15 +5,35 @@ import React from 'react'
 
 
 const useStyles = makeStyles(theme=>({
-    company:{
-        padding:"10px 0"
-    },
-    companyImage:{
-        height:"50px",
-        [theme.breakpoints.down('xs')]:{
-          height:"30px",
+    service:{
+        backgroundColor:"#f5f2f2",
+        marginTop:"-10px",
+        padding:"0 60px",
+        [theme.breakpoints.down('md')]:{
+            padding:"0 20px",
         },
-    }
+        [theme.breakpoints.down('sm')]:{
+            padding:"0 60px",
+        },
+        [theme.breakpoints.down('xs')]:{
+          padding:"0 30px",
+
+        }
+    },
+    serviceTitle:{
+        textAlign:"center",
+        fontSize:"16px",
+        [theme.breakpoints.down('sm')]:{
+          fontSize:"14px",
+        },
+        [theme.breakpoints.down('xs')]:{
+          textAlign:"inherit",
+          marginLeft:"10px",
+          fontWeight:"500",
+          marginRight:"auto",
+          fontSize:"13px"
+        }
+    },
 }))
 
 export default function Service() {

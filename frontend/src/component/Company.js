@@ -1,5 +1,6 @@
 import React from 'react'
 import { Grid,Typography,useTheme,useMediaQuery,makeStyles } from '@material-ui/core'
+import { TramOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme=>({
     company:{
@@ -35,22 +36,45 @@ export default function Company() {
                         <Grid container>
                             {
                                 [
-                                    "https://www.upwork.com/static/assets/Brontes/d3b19b5/img/microsoft.a4ac95d.svg",
-                                    "https://www.upwork.com/static/assets/Brontes/d3b19b5/img/ge.e4f1cde.svg",
-                                    "https://www.upwork.com/static/assets/Brontes/d3b19b5/img/airbnb.b562d93.svg",
-                                    "https://www.upwork.com/static/assets/Brontes/d3b19b5/img/bissell.5f96ccb.svg",
-                                    "https://www.upwork.com/static/assets/Brontes/d3b19b5/img/automatic.6156771.svg",
-                                    "https://www.upwork.com/static/assets/Brontes/d3b19b5/img/coty.355301a.svg"
+                                    {
+                                        image:"https://www.upwork.com/static/assets/Brontes/d3b19b5/img/microsoft.a4ac95d.svg",
+                                        xs:true
+                                    },
+                                    {
+                                        image:"https://www.upwork.com/static/assets/Brontes/d3b19b5/img/ge.e4f1cde.svg",
+                                        xs:false
+                                    },
+                                    {
+                                        image:"https://www.upwork.com/static/assets/Brontes/d3b19b5/img/airbnb.b562d93.svg",
+                                        xs:true
+                                    },
+                                    {
+                                        image:"https://www.upwork.com/static/assets/Brontes/d3b19b5/img/automatic.6156771.svg",
+                                        xs:false
+                                    },
+                                    {
+                                        image:"https://www.upwork.com/static/assets/Brontes/d3b19b5/img/bissell.5f96ccb.svg",
+                                        xs:false
+                                    },
+                                    {
+                                        image:"https://www.upwork.com/static/assets/Brontes/d3b19b5/img/coty.355301a.svg",
+                                        xs:true
+                                    },
+
                                 ].map(item=>(
                                     <Grid 
                                         container 
                                         justify="center"
                                         className={classes.company}
-                                        key={item} 
+                                        key={item.image} 
                                         item xs={4} sm={4} md={2}
+                                        style={{
+                                            display:xsMatch ? (item.xs ? "block" :"none") :undefined,
+                                            textAlign:xsMatch ? "center":undefined
+                                        }}
                                     >
                                         <img 
-                                            src={item} 
+                                            src={item.image} 
                                             alt="company" 
                                             className={classes.companyImage}
                                         />

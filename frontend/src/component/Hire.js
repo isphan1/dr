@@ -42,7 +42,8 @@ export default function Hire() {
             justify="space-around"
             style={{
               backgroundColor: "#fff",
-              padding: xsMatch ? "40px 20px" : "80px 20px",
+              padding: xsMatch ? "40px 20px" : "60px 20px",
+              border:xsMatch ? undefined :"1px solid #e0e0e0"
             }}
           >
             <Grid item md={4} sm={4} xs={12}>

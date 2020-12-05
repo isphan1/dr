@@ -4,7 +4,6 @@ import {Link,makeStyles,Hidden,Container,Grid} from '@material-ui/core'
 const useStyles = makeStyles(theme=>({
     tabLink:{
         color:"#000",
-        padding:"10px 0",
         fontSize:"14px",
         textDecoration:"none",
         [theme.breakpoints.down('md')]:{
@@ -13,6 +12,7 @@ const useStyles = makeStyles(theme=>({
         textTransform:"capitalize",
         "&:hover":{
             color:"#37a000",
+            cursor:"pointer",
             textDecoration:"underline",
 
         }
@@ -27,7 +27,9 @@ export default function SubHeader() {
         <>
           <Hidden smDown>
                 <Container>
-                    <Grid item md={12} container justify="space-around">
+                    <Grid item md={12} container justify="space-around" style={{
+                        padding:"10px 0",
+                    }}>
                         <Link className={classes.tabLink} to="/">Web Dev</Link>
                         <Link className={classes.tabLink} to="/">Mobile Dev</Link>
                         <Link className={classes.tabLink} to="/">Desing</Link>
