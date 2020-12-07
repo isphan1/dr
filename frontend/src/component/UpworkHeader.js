@@ -1,5 +1,5 @@
 import React from 'react'
-import {Button, Container, Grid, Hidden, IconButton, InputBase, makeStyles, Toolbar, useMediaQuery, useTheme } from '@material-ui/core'
+import {Button, Container, Grid, Hidden, IconButton, InputBase, makeStyles, Menu, MenuItem, Toolbar, useMediaQuery, useTheme } from '@material-ui/core'
 import {KeyboardArrowDown, Search,Menu as MenuIcon, } from '@material-ui/icons'
 import { Link } from 'react-router-dom'
 
@@ -18,7 +18,8 @@ const useStyles = makeStyles(theme=>({
         marginLeft: "8px",
         border:".5px solid #e0e0e0",
         borderRadius:"2px",
-        width:"80%",
+        width:"60%",
+        fontSize:"13px",
         [theme.breakpoints.down("sm")]: {
           display: "none",
         },
@@ -113,6 +114,19 @@ const useStyles = makeStyles(theme=>({
             fontSize:"13px"
           }
       },
+      menuDesign: {
+        "& .MuiMenu-paper": {
+          width: "22.2%",
+        },
+        "& .MuiPaper-root": {
+          // right:"0",
+          left:"19.9% !important",
+          top: "3.2rem !important",
+          [theme.breakpoints.down("xs")]: {
+            top: "3.7rem !important",
+          },
+        },
+      },
     }))
 
 export default function UpworkHeader() {
@@ -121,6 +135,20 @@ export default function UpworkHeader() {
     const theme = useTheme();
     const mdMatch = useMediaQuery(theme.breakpoints.down("sm"));
     const xsMatch = useMediaQuery(theme.breakpoints.down("xs"));
+    const [search,setSearch] = React.useState("Professionals & Agencies")
+
+    const [anchorEl,setAnchorEl] = React.useState(null)
+
+    const handleClose = (data)=>{
+        setAnchorEl(null)
+        if(data ==="Professionals & Agencies" || data ==="Jobs"){
+        setSearch(data)
+    }
+}
+
+    const handleOpen = (e) =>{
+        setAnchorEl(e.currentTarget)
+    }
 
     return (
         <>
@@ -150,7 +178,7 @@ export default function UpworkHeader() {
                     <Grid item container justify="center" sm={5} style={{}}>
                         <InputBase
                         className={classes.searchInput}
-                        placeholder="search"
+                        placeholder={`Find ${search}`}
                         startAdornment={
                         <>
                         <Search 
@@ -161,7 +189,7 @@ export default function UpworkHeader() {
                         <KeyboardArrowDown 
                             fontSize="small" 
                             style={{color:"#37a000",cursor:"pointer"}}
-                            onClick={()=>console.log("down........")}
+                            onClick={(e)=>handleOpen(e)}
                         />
                         </>
                         }
@@ -186,9 +214,9 @@ export default function UpworkHeader() {
                         <Link className={classes.menuLink} to="/">Log in</Link>
                         <Button
                             variant="contained"
+                            color="primary"
                             size="small"
                             style={{
-                                backgroundColor:"#37a000",
                                 fontFamily:"Raleway",
                                 fontWeight:"700",
                                 color:"#fff",
@@ -203,7 +231,29 @@ export default function UpworkHeader() {
                     </Hidden>
                 </Grid>
             </Container>
-        </Toolbar>  
+        </Toolbar>
+        <Menu
+            className={classes.menuDesign}
+            id="simple-menu"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            >
+            <MenuItem
+            style={{
+                fontSize:"13px",
+                color:search ==="Professionals & Agencies" ? "#37a000" : "#1D4354"
+            }}
+            onClick={()=>handleClose("Professionals & Agencies")}>Professionals & Agencies</MenuItem>
+            <MenuItem
+            style={{
+                fontSize:"13px",
+                color:search ==="Jobs" ? "#37a000" : "#1D4354"
+            }}
+            
+            onClick={()=>handleClose("Jobs")}>Jobs</MenuItem>
+        </Menu> 
         </>
     )
 }

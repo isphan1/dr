@@ -59,14 +59,17 @@ const useStyles = makeStyles(theme=>({
     },
     heroText3:{
       color:"#fff",
-      fontSize:"1.5rem",
-      fontWeight:"500",
+      width:"70%",
+      fontSize:"1.15rem",
+      fontWeight:"300",
       marginBottom:"20px",
       [theme.breakpoints.down('sm')]:{
+          width:"80%",
           fontSize:"1rem",          
           marginBottom:"10px",
       },
       [theme.breakpoints.down('xs')]:{
+            width:"100%",
           marginBottom:"5px",
           fontSize:".875rem",
 
@@ -74,25 +77,22 @@ const useStyles = makeStyles(theme=>({
     },
     heroButton1:{
       textTransform:"capitalize",
-      backgroundColor:"#37a000",
       color:"#fff",
       marginRight:"15px",
       padding:"5px 25px",
       fontWeight:"500",
       [theme.breakpoints.down('xs')]:{
-          padding:"2.5px 15px",
+          padding:"2px 15px",
           marginRight:"10px",
-
-      }
+      },
     },
     heroButton2:{
       textTransform:"capitalize",
-      backgroundColor:"#fff",
       color:"#37a000",
       padding:"5px 25px",
       fontWeight:"500",
       [theme.breakpoints.down('xs')]:{
-          padding:"2.5px 15px",
+          padding:"2px 15px",
       }
     },
 }))
@@ -116,8 +116,8 @@ export default function Hero() {
                     Hire proven pros with confidence using the world’s largest, remote talent platform.
                 </Typography>
                 <div>
-                    <Button className={classes.heroButton1} variant="contained">Hire Talent</Button>
-                    <Button className={classes.heroButton2} variant="contained">Find Jobs</Button>
+                    <Button color="primary" className={classes.heroButton1} variant="contained">Hire Talent</Button>
+                    <Button color="secondary" className={classes.heroButton2} variant="contained">Find Jobs</Button>
                 </div>
             </div>
             <img 

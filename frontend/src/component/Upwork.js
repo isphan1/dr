@@ -12,10 +12,13 @@ import Plan from "./Plan";
 import Rating from "./Rating";
 import Review from "./Review";
 import Skills from "./Skills";
+import Demo from "./Demo";
+import Footer from "./Footer";
 
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
+        flexGrow:"1",
         fontFamily: "Raleway",
         fontWeight: "500",
     },
@@ -35,7 +38,7 @@ export default function Upwork() {
             <AppBar position="fixed" color="inherit" className={classes.appBar}>
                 <UpworkHeader />
             </AppBar>
-            <main style={{ width: "100%" }}>
+            <main style={{width:"100%"}}>
                 <div className={classes.toolbar} />
                 <SubHeader />
                 <Hero />
@@ -52,6 +55,8 @@ export default function Upwork() {
                 <Rating />
                 <Review />
                 <Skills/>
+                <Demo/>
+                <Footer/>
             </main>
         </div>
     );

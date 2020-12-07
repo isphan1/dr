@@ -1,6 +1,5 @@
 import React from 'react'
 import { Grid,Typography,useTheme,useMediaQuery,makeStyles } from '@material-ui/core'
-import { TramOutlined } from '@material-ui/icons';
 
 const useStyles = makeStyles(theme=>({
     company:{

@@ -1,18 +1,25 @@
 import {Button, makeStyles } from '@material-ui/core'
 import React from 'react'
-import CustomButton from './CustomButton'
 import SingleSkill from './SingleSkill'
 
 const useStyles = makeStyles(theme=>({
     skill:{
-        padding:"50px 60px"
+        padding:"30px 60px",
+        backgroundColor:"#fff",
+        [theme.breakpoints.down('xs')]:{
+            padding:"20px 30px",
+        }
     },
     title:{
         fontSize:"18px",
-        fontWeight:"500"
+        fontWeight:"500",
+        [theme.breakpoints.down('xs')]:{
+            marginBottom:"15px"
+        }
     },
     tabLink:{
         color:"#000",
+        display:"block",
         fontSize:"13px",
         textDecoration:"none",
         textTransform:"capitalize",
@@ -209,25 +216,39 @@ export default function Skills() {
 
     const classes = useStyles()
 
+    const myRef = React.useRef()
+
     return (
         <div className={classes.skill}>
-            <SingleSkill data={topSkills} classes={classes} title="Top skills"/>
+            <SingleSkill data={topSkills} classes={classes} title="Top skills" ref={myRef}/>
             <SingleSkill data={trendingSkills} classes={classes} title="Trending skills"/>
             
             <div style={{marginBottom:"20px",textAlign:"center"}}>
-                <CustomButton background="#fff" color="#37a000">Browse All Skills</CustomButton>
+            <Button variant="contained"
+                    onClick={()=>myRef.current.showAlert()}
+                    style={{
+                    backgroundColor: "#fff",
+                    color: "#37a000",
+                    textTransform: "capitalize",
+                    padding: "7.5px 30px",
+                    boxShadow:"0 1px 6px rgba(57,73,76,.35)",
+                    }}
+                >
+                    Browse All Skills
+                </Button>            
             </div>
 
             <SingleSkill data={topSkillUs} classes={classes} title="Top Skills in Us"/>
             <SingleSkill data={topCitiesUs} classes={classes} title="Top Cities in Us"/>
 
-            <div style={{marginBottom:"20px",textAlign:"center"}}>
+            <div style={{margin:"5px 0 20px 0",textAlign:"center"}}>
                 <Button variant="contained"
                     style={{
                     backgroundColor: "#fff",
                     color: "#37a000",
                     textTransform: "capitalize",
                     padding: "7.5px 30px",
+                    boxShadow:"0 1px 6px rgba(57,73,76,.35)",
                     }}
                 >
                     Browse Us Freelancers

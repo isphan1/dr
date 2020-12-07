@@ -116,7 +116,8 @@ export default function Service() {
                         <Typography 
                         style={{
                             padding:"40px 0",
-                            fontWeight:"700",
+                            fontWeight:"500",
+                            fontSize:"14px",
                             textAlign:"center"
                         }}>
                         Don’t see what you’re looking for? <span style={{color:"#37a000"}}>See all categories</span>

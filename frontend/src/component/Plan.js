@@ -1,10 +1,15 @@
 import {
+  Button,
+  Collapse,
   Grid,
+  Hidden,
   makeStyles,
+  Paper,
   Typography,
 } from "@material-ui/core";
+import { Check, KeyboardArrowDown, KeyboardArrowUp } from "@material-ui/icons";
 import React from "react";
-import SinglePlan from "./SinglePlan";
+// import SinglePlan from "./SinglePlan";
 
 const plan = [
   {
@@ -125,21 +130,12 @@ export default function Plan() {
   const [open2, setOpen2] = React.useState(true);
   const [open3, setOpen3] = React.useState(false);
 
+  const val =[open1,open2,open3]
+  const fn = [setOpen1,setOpen2,setOpen3]
 
 //   const theme = useTheme();
 //   const smMatch = useMediaQuery(theme.breakpoints.down("sm"));
 //   const xsMatch = useMediaQuery(theme.breakpoints.down("xs"));
-
-  const handleOpenPlan1 = () => {
-     setOpen1(!open1)
-  };
-
-  const handleOpenPlan2 = () => {
-    setOpen2(!open2)
- };
- const handleOpenPlan3 = () => {
-    setOpen3(!open3)
- };
 
   return (
     <div className={classes.plans}>
@@ -151,9 +147,175 @@ export default function Plan() {
         agencies.
       </Typography>
         <Grid container>
-            <SinglePlan item={plan[0]} handleOpenPlan={handleOpenPlan1} classes={classes} open={open1}/>
-            <SinglePlan item={plan[1]} handleOpenPlan={handleOpenPlan2} classes={classes} open={open2}/>
-            <SinglePlan item={plan[2]} handleOpenPlan={handleOpenPlan3} classes={classes} open={open3}/>
+
+
+        {
+          plan.map((item,index)=>(
+            <Grid
+            style={{
+              padding: "8px",
+            }}
+            key={item + " " + Math.random()}
+            item
+            md={4}
+            sm={item.full ? 12 : 6}
+            xs={12}
+            // container
+            // direction="column"
+            // alignItems="center"
+          >
+            <Paper className={classes.paper}>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                }}
+              >
+                <Typography
+                  style={{
+                    margin: "20px 0 0 0",
+                  }}
+                >
+                  {item.type}
+                </Typography>
+                <Button
+                  variant="contained"
+                  color="primary"
+                  style={{
+                    margin: "20px 0",
+                    textTransform: "capitalize",
+                  }}
+                >
+                  {item.button}
+                </Button>
+                <Typography
+                  style={{
+                    margin: "0 0 20px 0",
+                    fontSize: "12px",
+                  }}
+                >
+                  {item.price}
+                </Typography>
+                <div className={classes.divider} />
+              </div>
+              <Hidden xsDown>
+              <Typography className={classes.planText}
+                    style={{
+                        textAlign:"center",
+                        marginBottom: "10px",
+                        fontWeight:"500"
+                    }}
+                >
+                    {item.info}
+                    </Typography>
+                {item.plans.map((plan) => (
+                  <div
+                    key={plan + " " + Math.random()}
+                    style={{
+                      display: "flex",
+                      // alignItems:"center",
+                      padding: "0 20px",
+                    }}
+                  >
+                    <Check
+                      fontSize="small"
+                      color="primary"
+                      style={{ marginRight: "10px" }}
+                    />
+                    <Typography className={classes.planText}>{plan}</Typography>
+                  </div>
+                ))}
+                <p
+                  style={{
+                    // position:"absolute",
+                    margin: "10px 0 0 48px",
+                    // left:"48px",
+                    // bottom:"5px",
+                    fontSize: "13px",
+                    fontWeight: "700",
+                    color: "#6DAF66",
+                    cursor: "pointer",
+                  }}
+                >
+                  {item.more}
+                </p>
+              </Hidden>
+              <Hidden smUp>
+                <Collapse
+                  in={val[index]}
+                  timeout="auto"
+                  unmountOnExit
+                  style={{
+                    backgroundColor: "#f7f0f0",
+                    padding: "15px 0 10px 0",
+                  }}
+                >
+                <Typography className={classes.planText}
+                    style={{
+                        textAlign:"center",
+                        marginBottom: "10px",
+                        fontWeight:"500"
+                    }}
+                >
+                    {item.info}
+                    </Typography>
+                  {item.plans.map((plan, index) => (
+                    <div
+                      key={plan + " " + Math.random()}
+                      style={{
+                        display: "flex",
+                        // alignItems:"center",
+                        padding: "0 20px",
+                        marginBottom: "10px",
+                      }}
+                    >
+                      <Check
+                        fontSize="small"
+                        color="primary"
+                        style={{ marginRight: "10px" }}
+                      />
+                      <Typography className={classes.planText}>
+                        {plan}
+                      </Typography>
+                    </div>
+                  ))}
+                  <p
+                    style={{
+                      // position:"absolute",
+                      margin: "10px 0 0 48px",
+                      // left:"48px",
+                      // bottom:"5px",
+                      fontSize: "13px",
+                      fontWeight: "700",
+                      color: "#6DAF66",
+                      cursor: "pointer",
+                    }}
+                  >
+                    {item.more}
+                  </p>
+                </Collapse>
+              </Hidden>
+              <Hidden smUp>
+                <Button
+                  onClick={()=>fn[index](!val[index])}
+                  variant="contained"
+                  disableRipple
+                  style={{
+                    backgroundColor: "#fff",
+                    color: "#6DAF44",
+                    textTransform: "capitalize",
+                    padding: "5px, 0",
+                  }}
+                >
+                  {val[index] ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+                  {val[index] ? "Hide features" : "See features"}
+                </Button>
+              </Hidden>
+            </Paper>
+          </Grid>  
+          ))
+        }
         </Grid>
       <Typography
             style={{

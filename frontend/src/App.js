@@ -16,6 +16,8 @@ import ProtectedRoute from "./component/ProtectedRoute";
 import GridDesign from "./component/GridDesign";
 import Upwork from "./component/Upwork";
 import { ThemeProvider } from "@material-ui/core";
+import UpworkLogin from "./component/UpworkLogin";
+import UpworkSingUp from "./component/UpworkSingUp";
 
 const pages= [
   {
@@ -58,6 +60,20 @@ const pages= [
     Route:Route,
     path:"/upwork",
     component:Upwork,
+    layout:publicLayout,
+  },
+  {
+    exect:true,
+    Route:Route,
+    path:"/ulogin",
+    component:UpworkLogin,
+    layout:publicLayout,
+  },
+  {
+    exect:true,
+    Route:Route,
+    path:"/using",
+    component:UpworkSingUp,
     layout:publicLayout,
   }
 ]

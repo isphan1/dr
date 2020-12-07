@@ -3,8 +3,8 @@ import {Link,makeStyles,Hidden,Container,Grid} from '@material-ui/core'
 
 const useStyles = makeStyles(theme=>({
     tabLink:{
-        color:"#000",
-        fontSize:"14px",
+        color:"#222222",
+        fontSize:"13.5px",
         textDecoration:"none",
         [theme.breakpoints.down('md')]:{
           fontSize:"13px",
