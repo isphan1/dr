@@ -129,7 +129,7 @@ const useStyles = makeStyles(theme=>({
       },
     }))
 
-export default function UpworkHeader() {
+export default function UpworkHeader({props}) {
     
     const classes = useStyles()
     const theme = useTheme();
@@ -143,8 +143,12 @@ export default function UpworkHeader() {
         setAnchorEl(null)
         if(data ==="Professionals & Agencies" || data ==="Jobs"){
         setSearch(data)
+        }
     }
-}
+
+    const singUp = () =>{
+        props.history.push('/using')
+    }
 
     const handleOpen = (e) =>{
         setAnchorEl(e.currentTarget)
@@ -170,8 +174,8 @@ export default function UpworkHeader() {
                         </Grid>
                 <Hidden mdUp>
                     <Grid item xs={6} sm={8} container alignItems="center" justify="flex-end">
-                        <Link className={classes.mediaLink} to="/">Login</Link>
-                        <Link className={classes.mediaLink} to="/">Sing Up</Link>
+                        <Link className={classes.mediaLink} to="/ulogin">Login</Link>
+                        <Link className={classes.mediaLink} to="/using">Sing Up</Link>
                     </Grid>
                 </Hidden>
                 <Hidden smDown>
@@ -211,8 +215,9 @@ export default function UpworkHeader() {
                         </Link>
                         <Link className={classes.menuLink} to="/">How it works</Link>
                         <Link className={classes.menuLink} to="/">Enterprise</Link>
-                        <Link className={classes.menuLink} to="/">Log in</Link>
+                        <Link className={classes.menuLink} to="/ulogin">Log in</Link>
                         <Button
+                            onClick={()=>singUp()}
                             variant="contained"
                             color="primary"
                             size="small"

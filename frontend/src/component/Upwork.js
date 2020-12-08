@@ -28,7 +28,7 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
-export default function Upwork() {
+export default function Upwork(props) {
     const classes = useStyles();
     document.title = "In-demand talent on demand";
 
@@ -36,11 +36,11 @@ export default function Upwork() {
         <div className={classes.root}>
             <CssBaseline />
             <AppBar position="fixed" color="inherit" className={classes.appBar}>
-                <UpworkHeader />
+                <UpworkHeader props ={props}/>
             </AppBar>
             <main style={{width:"100%"}}>
                 <div className={classes.toolbar} />
-                <SubHeader />
+                <SubHeader/>
                 <Hero />
                 <Hidden smUp>
                     <Company />

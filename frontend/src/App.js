@@ -105,16 +105,7 @@ function App() {
                       }
                   />
                 ))}
-
                 <Route  render={()=><p>NotFound</p>}/>
-
-                {/* 
-                <Route exact path="/" component={Home} />
-                <Route exact path="/login" component={Login} />
-                <Route exact path="/data" render={() => <Data />} />
-                <PrivateRoute exact path="/news/:post_id/:vox" component={Detail} /> 
-                */}
-
               </Switch>
           </Router>
         </PersistGate>

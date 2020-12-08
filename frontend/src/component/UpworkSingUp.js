@@ -1,9 +1,11 @@
-import { AppBar, Button, Card, CssBaseline, Grid, IconButton, InputBase, Link, makeStyles, Toolbar, Typography, useMediaQuery, useTheme } from '@material-ui/core'
+import { AppBar, Button, Card, CssBaseline, Grid, IconButton, InputBase, makeStyles, Toolbar, Typography, useMediaQuery, useTheme } from '@material-ui/core'
 import { Person,Error, Close } from '@material-ui/icons'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import ErrorMessage from './ErrorMessage'
-import Works from './Works'
+import {Link} from 'react-router-dom'
+import { uClear, vUsername } from '../redux/auth/action'
+import { connect } from 'react-redux'
 
 const useStyles = makeStyles(theme=>({
     root:{
@@ -15,7 +17,7 @@ const useStyles = makeStyles(theme=>({
         zIndex:theme.zIndex.appBar + 2
     },
     bar:{
-        padding:"0 150px",
+        padding:"0 120px",
         [theme.breakpoints.down('sm')]:{
             padding:"0 80px"
         },
@@ -51,8 +53,8 @@ const useStyles = makeStyles(theme=>({
     },
     title:{
         fontSize:"24px",
-        fontWeight:"300",
-        margin:"0"
+        fontWeight:"500",
+        marginBottom:"10px"
     },
     searchInput: {
         padding: "0px 8px",
@@ -107,10 +109,22 @@ const useStyles = makeStyles(theme=>({
           color:"#ffffff",
           fontSize:"14px",
           cursor:"pointer",
+          textDecoration:"none",
+          "&:hover":{
+            textDecoration:"underline",
+            color:"#37a000",
+          }
+      },
+      loginLink:{
+        color:"#37a000",
+        textDecoration:"none",
+        "&:hover":{
+            color:"#008329"
+        }
       }
 }))
 
-export default function UpworkLogin() {
+const UpworkSingUp = (props) =>{
 
     const classes = useStyles()
 
@@ -125,8 +139,9 @@ export default function UpworkLogin() {
 
     let {handleSubmit,errors,register} = useForm()
 
-    const singIN = (data,e) =>{
+    const singUp = (data,e) =>{
         e.preventDefault()
+        props.vUsername(data)
     }
 
     React.useEffect(()=>{
@@ -143,7 +158,19 @@ export default function UpworkLogin() {
               <Toolbar disableGutters className={classes.bar}>
               <img src="https://fulltimehomebusiness.com/wp-content/uploads/2019/07/Upwork-logo.png"
                     height="33px"
-                    alt="log"/>
+                    alt="log"
+                    style={{
+                        marginRight:"auto"
+                    }}
+                    />
+                <Typography
+                    style={{
+                        fontSize:"14px",
+                        display:smMatch ? "none": "block"
+                    }}
+                >
+                    Already have an account? <Link className={classes.loginLink} to="/ulogin" >Log In</Link>
+                </Typography>
               </Toolbar>
             </AppBar>  
             <main style={{width:"100%"}}>
@@ -214,13 +241,14 @@ export default function UpworkLogin() {
                         }}/>
                         </Grid>
                      </Grid>
-                <form className={classes.form} onSubmit={handleSubmit(singIN)} autoComplete="off">
+                <form className={classes.form} onSubmit={handleSubmit(singUp)} autoComplete="off">
                 <InputBase
                         className={classes.searchInput}
                         placeholder="Work email address"
                         disabled={open}
                         name='username'
-                        inputRef={register({required: true})}
+                        onFocus={()=>props.uClear()}
+                        inputRef={register({required: true,minLength:3})}
                         startAdornment={
                         <>
                         <Person
@@ -239,7 +267,8 @@ export default function UpworkLogin() {
                        
                         {
                          errors.username && <ErrorMessage errors={errors.username.type}/>
-                     } 
+                     }
+                     {errors.username ? "":props.data.errors.username}
                     </div>
                     <Button
                         type="submit"
@@ -251,33 +280,57 @@ export default function UpworkLogin() {
                         Continue
                     </Button>
                     </form>
-                    
+                    <Typography
+                    style={{
+                        fontSize:"14px",
+                        display:smMatch ? "block": "none"
+                    }}
+                >
+                    Already have an account? <Link className={classes.loginLink} to="/ulogin">Log In</Link>
+                </Typography>
             </Card>
                 </div>
-                <Grid container>
+                <div
+                style={{
+                    padding:xsMatch ? "10px 5px" :"20px 80px"
+                }}
+                >
+                    <Typography
+                        style={{
+                            textAlign:"center",
+                            fontSize:xsMatch ? "16px":"20px",
+                            fontWeight:"500"
+                        }}
+                    >
+                        More than 60k jobs are posted on Upwork every week
+                    </Typography>
+
+                <Grid container
+
+                >
                 {
                     [
                         {
                             image:"https://www.upwork.com/static/assets/Brontes/498ef42/img/find.9449b48.svg",
-                            title:"Post a job (it’s free)",
-                            body:"Tell us about your project. Upwork connects you with top talent and agencies around the world, or near you.",
+                            title:"Find what you need",
+                            body:"Choose from specialized freelancers and agencies with 5,000+ skills",
                             border:true
                         },
                         {
                             image:"https://www.upwork.com/static/assets/Brontes/498ef42/img/work.e0cdb7b.svg",
-                            title:"Bids come to you",
-                            body:"Get qualified proposals within 24 hours. Compare bids, reviews, and prior work. Interview favorites and hire the best fit",
+                            title:"Post today, hire tomorrow",
+                            body:"Get custom quotes right away on terms you negotiate directly.",
                             border:true
                         },
                         {
                             image:"https://www.upwork.com/static/assets/Brontes/498ef42/img/pay.8951f52.svg",
-                            title:"Collaborate easily",
-                            body:"Use Upwork to chat or video call, share files, and track project milestones from your desktop or mobile.",
-                            border:true
+                            title:"Engage with confidence",
+                            body:"Only pay for work you authorize, with secure billing and invoices.",
+                            border:false
                         },
                     ].map(item=>(
                     <Grid key={item.title} 
-                        container direction={smMatch ? "row":"column"} 
+                        container direction="row" 
                         alignItems="center"
                         // justify="center"
                         item md={4} sm={12} xs={12}
@@ -286,42 +339,44 @@ export default function UpworkLogin() {
                             borderBottom: smMatch ? (item.border ? "1px solid #e0e0e0" : "" ):""
                         }}
                     >
-                        
+                     <Grid item container sm ={2} xs={2} justify="center">
                         <img 
                             src={item.image} 
                             alt="works" 
-                            height={smMatch? "60x":"120px"}
-                            width={smMatch? "60x":"120px"}
+                            height={xsMatch ? "60px":"80x"}
+                            width={xsMatch ? "60px":"80x"}
                         />
-                        <div style={{
-                            textAlign:smMatch ? "left":"center",
-                            display:"flex",
-                            flexDirection:"column",
-                            marginLeft:smMatch ? "10px" : ""
+                        </Grid>
+                        <Grid container item sm ={10} xs={10}
+                        style={{
+                            textAlign:"left",
+                            padding:smMatch?"10px":"20px" 
                         }}>
                         <Typography
                             style={{
                                 fontWeight:"500",
-                                fontSize:smMatch ? "14px":"16px",
-                                margin:smMatch ? "":"5px 0"
+                                fontSize: xsMatch? "13px": "16px",
+                                marginBottom: smMatch ? "":"5px",
+                                width:"100%"
                             }}
                         >
                             {item.title}
                         </Typography>
                         <Typography variant="subtitle2" style={{
-                            textAlign:smMatch? "inherit":"center",
-                            // margin:smMatch ? "5px 0 2.5px 18px":"",
-                            fontWeight:"100",
-                            borderBottom: smMatch ? "1px soild #000" : "none"
-                            }}
+                            borderBottom: item.border ? "1px soild #000":"",
+                            fontWeight:"300",
+                            fontSize: xsMatch? "12px": "15px",
+                            width:"100%"
+                        }}
                             >
                                 {item.body}
                             </Typography>
-                            </div>
+                        </Grid>
                     </Grid>
                     ))
                 }
-            </Grid>                
+            </Grid>   
+            </div>             
             <div 
                     style={{
                         backgroundColor:"#222222",
@@ -344,3 +399,17 @@ export default function UpworkLogin() {
         </div>
     )
 }
+
+const mapStateToProps = state =>({
+    data : state.auth
+})
+
+const mapDispatchToProps = dispatch =>{
+    return{
+        vUsername: (username) => dispatch(vUsername(username)),
+        uClear: () => dispatch(uClear),
+        
+    }
+}
+
+export default connect(mapStateToProps,mapDispatchToProps)(UpworkSingUp)

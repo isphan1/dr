@@ -1,8 +1,11 @@
-import { AppBar, Button, Card, CssBaseline, Grid, IconButton, InputBase, Link, makeStyles, Toolbar, Typography, useMediaQuery, useTheme } from '@material-ui/core'
+import { AppBar, Button, Card, CssBaseline, Grid, IconButton, InputBase, makeStyles, Toolbar, Typography, useMediaQuery, useTheme } from '@material-ui/core'
 import { Person,Error, Apple, Close } from '@material-ui/icons'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import ErrorMessage from './ErrorMessage'
+import {Link} from 'react-router-dom'
+import { connect } from 'react-redux'
+import { vUsername } from '../redux/auth/action'
 
 const useStyles = makeStyles(theme=>({
     root:{
@@ -31,7 +34,7 @@ const useStyles = makeStyles(theme=>({
         flexDirection:"column",
         alignItems:"center",
         "& > *":{
-            margin:"12px 0"
+            margin:"10px 0"
         },
         [theme.breakpoints.down('xs')]:{
             margin:"0",
@@ -106,10 +109,15 @@ const useStyles = makeStyles(theme=>({
           color:"#ffffff",
           fontSize:"14px",
           cursor:"pointer",
+          textDecoration:"none",
+          "&:hover":{
+            textDecoration:"underline",
+            color:"#37a000",
+          }
       }
 }))
 
-export default function UpworkLogin() {
+    const  UpworkLogin = (props)=> {
 
     const classes = useStyles()
 
@@ -122,9 +130,11 @@ export default function UpworkLogin() {
     const [open,setOpen] = React.useState(false)
 
     let {handleSubmit,errors,register} = useForm()
-
+    
     const singIN = (data,e) =>{
         e.preventDefault()
+        props.vUsername(data)
+
     }
 
     React.useEffect(()=>{
@@ -133,6 +143,10 @@ export default function UpworkLogin() {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[errors])
+
+    const clickSingUp = ()=>{
+        props.history.push('/using')
+    }
 
     return (
         <div className={classes.root}>
@@ -181,7 +195,7 @@ export default function UpworkLogin() {
                         placeholder="Username or Email"
                         disabled={open}
                         name='username'
-                        inputRef={register({required: true})}
+                        inputRef={register({required: true,minLength:3})}
                         startAdornment={
                         <>
                         <Person
@@ -305,6 +319,7 @@ export default function UpworkLogin() {
                             
                         }}
                         variant="contained"
+                        onClick={clickSingUp}
                     >
                         Sing Up
                     </Button>
@@ -322,9 +337,9 @@ export default function UpworkLogin() {
                     <Typography className={classes.footerTitle}>
                         © 2015 - 2020 Upwork® Global Inc.
                     </Typography>
-                    <Link className={classes.link} to="/">Terms of Service</Link>
-                    <Link className={classes.link} to="/">Privacy Policy</Link>
-                    <Link className={classes.link} to="/">Accessibility</Link>
+                    <Link className={classes.link} to="/upwork">Terms of Service</Link>
+                    <Link className={classes.link} to="/upwork">Privacy Policy</Link>
+                    <Link className={classes.link} to="/upwork">Accessibility</Link>
 
                 </div>
             </div>
@@ -332,3 +347,15 @@ export default function UpworkLogin() {
         </div>
     )
 }
+
+const mapStateToProps = state =>({
+    data : state.auth
+})
+
+const mapDispatchToProps = dispatch =>{
+    return{
+        vUsername: (username) => dispatch(vUsername(username)),
+        
+    }
+}
+export default connect(mapStateToProps,mapDispatchToProps)(UpworkLogin)
