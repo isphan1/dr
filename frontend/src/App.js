@@ -18,6 +18,10 @@ import Upwork from "./component/Upwork";
 import { ThemeProvider } from "@material-ui/core";
 import UpworkLogin from "./component/UpworkLogin";
 import UpworkSingUp from "./component/UpworkSingUp";
+import LoginPass from "./component/LoginPass";
+import LoginHeader from "./component/LoginHeader";
+import Dashboard from "./component/Dashboard";
+import { date } from "faker";
 
 const pages= [
   {
@@ -27,38 +31,38 @@ const pages= [
     component:Login,
     layout:publicLayout
   },
+  // {
+  //   exect:true,
+  //   Route:PrivateRoute,
+  //   path:"/",
+  //   component:Home,
+  //   layout:authLayout
+  // },
+  // {
+  //   exect:true,
+  //   Route:PrivateRoute,
+  //   path:"/data",
+  //   component:Data,
+  //   layout:authLayout
+  // },
+  // {
+  //   exect:true,
+  //   Route:PrivateRoute,
+  //   path:"/news/:post_id/:slug",
+  //   component:Detail,
+  //   layout:authLayout
+  // },
+  // {
+  //   exect:true,
+  //   Route:Route,
+  //   path:"/grid",
+  //   component:GridDesign,
+  //   layout:publicLayout,
+  // },
   {
     exect:true,
-    Route:PrivateRoute,
+    Route:Route,
     path:"/",
-    component:Home,
-    layout:authLayout
-  },
-  {
-    exect:true,
-    Route:PrivateRoute,
-    path:"/data",
-    component:Data,
-    layout:authLayout
-  },
-  {
-    exect:true,
-    Route:PrivateRoute,
-    path:"/news/:post_id/:slug",
-    component:Detail,
-    layout:authLayout
-  },
-  {
-    exect:true,
-    Route:Route,
-    path:"/grid",
-    component:GridDesign,
-    layout:publicLayout,
-  },
-  {
-    exect:true,
-    Route:Route,
-    path:"/upwork",
     component:Upwork,
     layout:publicLayout,
   },
@@ -67,14 +71,28 @@ const pages= [
     Route:Route,
     path:"/ulogin",
     component:UpworkLogin,
-    layout:publicLayout,
+    layout:LoginHeader,
   },
   {
     exect:true,
     Route:Route,
     path:"/using",
     component:UpworkSingUp,
+    layout:LoginHeader,
+  },
+  {
+    exect:true,
+    Route:Route,
+    path:"/login/password",
+    component:LoginPass,
     layout:publicLayout,
+  },
+  {
+    exect:true,
+    Route:Route,
+    path:"/dashboard",
+    component:Dashboard,
+    layout:LoginHeader,
   }
 ]
 
@@ -92,11 +110,6 @@ function App() {
                     key={index}
                     exact={i.exect}
                     path={i.path}
-                    // render={props=>(
-                    //   <i.layout history={props.history}>
-                    //     <i.component {...props}/>
-                    //   </i.layout>
-                    // )}
                     component={
                       props=>
                       <i.layout history={props.history}>

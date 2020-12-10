@@ -16,7 +16,7 @@ function Home(props) {
 
     useEffect(() => {
         if(data.leads.length <= 0){
-            fetchLead()
+            // fetchLead()
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [data.auth])   
@@ -115,12 +115,14 @@ function Home(props) {
 }
 
 const mapStateToProps = state =>({
-    data : state.leads
+    data : state.leads,
+    auth : state.auth
+
 })
 
 const mapDispatchToProps = dispatch =>{
     return{
-        fetchLead: () => dispatch(getLeads),
+        // fetchLead: () => dispatch(getLeads),
     }
 }
 

@@ -98,7 +98,8 @@ function Data({data,addLead,addCart,leadSearch}) {
 
 
 const mapStateToProps = state =>({
-    data : state.leads
+    data : state.leads,
+    auth : state.auth
 })
 
 const mapDispatchToProps = dispatch =>{

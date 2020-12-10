@@ -165,7 +165,7 @@ export default function UpworkHeader({props}) {
                         className={classes.drawerButton}
                         color="inherit"
                         >
-                            <MenuIcon fontSize={xsMatch ? "default":"large"} style={{color:"#656565"}}/>
+                            <MenuIcon fontSize={xsMatch ? "default":"inherit"} style={{color:"#656565"}}/>
                         </IconButton>
                     </Hidden>
                         <img src="https://fulltimehomebusiness.com/wp-content/uploads/2019/07/Upwork-logo.png"

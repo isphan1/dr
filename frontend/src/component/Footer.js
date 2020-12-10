@@ -191,7 +191,7 @@ export default function Footer() {
                 padding:xsMatch ? "0 0 10px 0":"10px 0",
                 color:"#e0e0e0",
             }}>
-                <Grid container>
+                <Grid container >
                     <Grid item md={6} sm={7} xs={12} 
                     container className={classes.social1}>
                         Follow us

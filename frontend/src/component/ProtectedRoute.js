@@ -6,7 +6,7 @@ function ProtectedRoute({component:Component,auth,...rest}){
 
         return <Route {...rest}
                  render={props=>(
-                     auth ? (<Redirect to="/" />) : (<Component {...props}/>)
+                     auth ? (<Redirect to="/dashboard" />) : (<Component {...props}/>)
                  )
             }/>
     }

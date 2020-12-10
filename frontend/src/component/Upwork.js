@@ -24,6 +24,10 @@ const useStyles = makeStyles((theme) => ({
     },
     toolbar: theme.mixins.toolbar,
     appBar: {
+        padding:"0 100px",
+        [theme.breakpoints.down('md')]:{
+            padding:"0",
+        },
         boxShadow: "0 0 1px #000",
     },
 }));

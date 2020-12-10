@@ -6,13 +6,13 @@ function PrivateRoute({component:Component,auth,...rest}){
 
    return <Route {...rest}
         render={props=>(
-            auth ? (<Component {...props}/>) : (<Redirect to="/login" />)
+            auth ? (<Component {...props}/>) : (<Redirect to="/ulogin" />)
         )
     }/>
 }
 
 const mapStateToProps = state =>({
-    auth : state.leads.auth
+    auth : state.auth.isLogin
 })
 
 export default  connect(mapStateToProps)(PrivateRoute)

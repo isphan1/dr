@@ -22,6 +22,7 @@ export default function (state=initialState,action){
             return{
                 ...state,
                 isLogin:true,
+                username:"",
                 user:action.payload,
                 errors:{}
             }
@@ -36,10 +37,13 @@ export default function (state=initialState,action){
         case ERRORS:
                 return{
                     ...state,
-                    isLogin:false,
-                    user:{},
                     errors:action.payload
-                }        
+                }
+        case "ERRORCLEAR":
+                return{
+                    ...state,
+                    errors:{}
+                }         
         case LOGOUT:
             return{
                 ...state,
@@ -47,6 +51,12 @@ export default function (state=initialState,action){
                 username:"",
                 user:{},
                 errors:{}
+            }
+
+        case "TOKENFRESH":
+            return{
+                ...state,
+                user:action.payload,
             }
 
         default:

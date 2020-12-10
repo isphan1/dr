@@ -4,7 +4,7 @@ import cart from "../cart/cart"
 import auth from "../auth/auth"
 
 export default combineReducers({
+    auth,
     leads,
-    cart,
-    auth
+    cart
 })

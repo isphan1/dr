@@ -1,5 +1,6 @@
 import {GET_LEADS,ADD_LEAD} from './types'
 import axios from 'axios'
+import {tokenConfig} from '../common/getToken'
 
 import faker from 'faker'
 
@@ -17,12 +18,15 @@ export const addData = lead =>{
     }
 }
 
-export const getLeads = dispatch =>{
+export const getLeads = (dispatch,getState) =>{
+    const token = tokenConfig(getState)
+if(token){
     axios({
         method:"get",
         url:"http://127.0.0.1:8000/api/",
         headers:{
             "content-type": "application/json",
+            "Authorization": "JWT "+ token
         }
         })        
         .then(res=>
@@ -32,8 +36,12 @@ export const getLeads = dispatch =>{
             console.log(err)
         )
     }
+}
 
-    export const addLead = dispatch =>{
+    export const addLead = (dispatch,getState) =>{
+
+        const token = tokenConfig(getState)
+
         let id = Math.floor(Math.random()*100000)
         let title = faker.lorem.sentence()
         let body = faker.lorem.paragraph()
@@ -44,6 +52,7 @@ export const getLeads = dispatch =>{
             data:{'title':title,'body':body},
             headers:{
                 "content-type": "application/json",
+                "Authorization": "JWT "+ token
             }
             })
             .then(res=>{

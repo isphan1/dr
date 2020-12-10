@@ -1,4 +1,4 @@
-import { AppBar, Button, Card, CssBaseline, Grid, IconButton, InputBase, makeStyles, Toolbar, Typography, useMediaQuery, useTheme } from '@material-ui/core'
+import { Button, Card, Grid, IconButton,makeStyles, InputBase,Typography, useMediaQuery, useTheme } from '@material-ui/core'
 import { Person,Error, Close } from '@material-ui/icons'
 import React from 'react'
 import { useForm } from 'react-hook-form'
@@ -17,7 +17,7 @@ const useStyles = makeStyles(theme=>({
         zIndex:theme.zIndex.appBar + 2
     },
     bar:{
-        padding:"0 120px",
+        padding:"0 150px",
         [theme.breakpoints.down('sm')]:{
             padding:"0 80px"
         },
@@ -34,7 +34,7 @@ const useStyles = makeStyles(theme=>({
         flexDirection:"column",
         alignItems:"center",
         "& > *":{
-            margin:"12px 0"
+            margin:"10px 0"
         },
         [theme.breakpoints.down('xs')]:{
             margin:"0",
@@ -48,13 +48,16 @@ const useStyles = makeStyles(theme=>({
         flexDirection:"column",
         alignItems:"center",
         "& > *":{
-            margin:"7px 0 !important"
+            margin:"10px 0 !important"
         } 
     },
     title:{
         fontSize:"24px",
-        fontWeight:"500",
-        marginBottom:"10px"
+        fontWeight:"700",
+        margin:"0",
+        [theme.breakpoints.down('xs')]:{
+            fontSize:"23px",
+        }
     },
     searchInput: {
         padding: "0px 8px",
@@ -78,6 +81,7 @@ const useStyles = makeStyles(theme=>({
       },
       button:{
           width:"80%",
+          fontWeight:"700",
           textTransform:"none",
           [theme.breakpoints.down('xs')]:{
             width:"90%",
@@ -116,15 +120,18 @@ const useStyles = makeStyles(theme=>({
           }
       },
       loginLink:{
+        fontSize:"14px",
         color:"#37a000",
+        cursor:"pointer",
         textDecoration:"none",
         "&:hover":{
-            color:"#008329"
+          textDecoration:"underline",
         }
-      }
+    }
 }))
-
 const UpworkSingUp = (props) =>{
+
+    const {data,vUsername,uClear} = props
 
     const classes = useStyles()
 
@@ -141,8 +148,15 @@ const UpworkSingUp = (props) =>{
 
     const singUp = (data,e) =>{
         e.preventDefault()
-        props.vUsername(data)
+        vUsername(data)
     }
+
+    React.useEffect(()=>{
+        if(data.username !== ""){
+            props.history.push('/login/password')
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[data])
 
     React.useEffect(()=>{
         if(errors.username){
@@ -152,29 +166,7 @@ const UpworkSingUp = (props) =>{
     },[errors])
 
     return (
-        <div className={classes.root}>
-            <CssBaseline/>
-          <AppBar color="secondary" position="fixed" elevation={1}>
-              <Toolbar disableGutters className={classes.bar}>
-              <img src="https://fulltimehomebusiness.com/wp-content/uploads/2019/07/Upwork-logo.png"
-                    height="33px"
-                    alt="log"
-                    style={{
-                        marginRight:"auto"
-                    }}
-                    />
-                <Typography
-                    style={{
-                        fontSize:"14px",
-                        display:smMatch ? "none": "block"
-                    }}
-                >
-                    Already have an account? <Link className={classes.loginLink} to="/ulogin" >Log In</Link>
-                </Typography>
-              </Toolbar>
-            </AppBar>  
-            <main style={{width:"100%"}}>
-            <div className={classes.toolbar}/>
+        <>
             <div style={{
                 display:"flex",
                 flexDirection:"column",
@@ -214,6 +206,18 @@ const UpworkSingUp = (props) =>{
                         }}
                         
                     >
+                     <img 
+                        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png"
+                        alt="logo"
+                        height="33px"
+                        style={{
+                            backgroundColor:"#fff",
+                            position:"absolute",
+                            padding:"5px",
+                            left:"2px",
+                            borderRadius:"3px"
+                        }}
+                        />
                         Sing in with Google
                     </Button>
                     <Grid container alignItems="center" justify="center"
@@ -247,7 +251,7 @@ const UpworkSingUp = (props) =>{
                         placeholder="Work email address"
                         disabled={open}
                         name='username'
-                        onFocus={()=>props.uClear()}
+                        onFocus={()=>uClear()}
                         inputRef={register({required: true,minLength:3})}
                         startAdornment={
                         <>
@@ -260,15 +264,42 @@ const UpworkSingUp = (props) =>{
                     /> 
                     <div
                         className={classes.error}
+                        style={{
+                            display: errors.username ? "flex" : "none"
+                        }}
                     >
-                        {errors.username  ? <Error style={{
-                            marginRight:"10px",
-                        }} fontSize="small"/> : "" }
                        
                         {
-                         errors.username && <ErrorMessage errors={errors.username.type}/>
-                     }
-                     {errors.username ? "":props.data.errors.username}
+                         errors.username && 
+                         <div
+                         style={{
+                            display:"flex",
+                            alignItems:"center"
+                        }}
+                         >
+                            <Error style={{ marginRight:"10px"}} fontSize="small"/>
+                            <ErrorMessage errors={errors.username.type}/>
+                         </div>
+                        }
+                    </div>
+                    <div
+                      className={classes.error}
+                      style={{
+                          display: data.errors.username ? "flex" : "none"
+                      }}
+                    >
+                    {data.errors.username  ? 
+                        <div
+                            style={{
+                                display:"flex",
+                                alignItems:"center"
+                            }}
+                        >
+                            <Error style={{ marginRight:"10px"}} fontSize="small"/> 
+                            {data.errors.username}
+                        </div>
+                        :""
+                        }
                     </div>
                     <Button
                         type="submit"
@@ -377,26 +408,7 @@ const UpworkSingUp = (props) =>{
                 }
             </Grid>   
             </div>             
-            <div 
-                    style={{
-                        backgroundColor:"#222222",
-                        width:"100%",
-                        padding:"20px 0",
-                        display:"flex",
-                        flexDirection:"column",
-                        alignItems:"center"
-                    }}
-                >
-                    <Typography className={classes.footerTitle}>
-                        © 2015 - 2020 Upwork® Global Inc.
-                    </Typography>
-                    <Link className={classes.link} to="/">Terms of Service</Link>
-                    <Link className={classes.link} to="/">Privacy Policy</Link>
-                    <Link className={classes.link} to="/">Accessibility</Link>
-
-                </div>
-        </main>
-        </div>
+        </>
     )
 }
 

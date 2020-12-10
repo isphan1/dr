@@ -1,11 +1,10 @@
-import { AppBar, Button, Card, CssBaseline, Grid, IconButton, InputBase, makeStyles, Toolbar, Typography, useMediaQuery, useTheme } from '@material-ui/core'
+import {Button, Card, Grid, IconButton,makeStyles, InputBase, Typography, useMediaQuery, useTheme } from '@material-ui/core'
 import { Person,Error, Apple, Close } from '@material-ui/icons'
 import React from 'react'
 import { useForm } from 'react-hook-form'
 import ErrorMessage from './ErrorMessage'
-import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
-import { vUsername } from '../redux/auth/action'
+import { uInvalid,uClear } from '../redux/auth/action'
 
 const useStyles = makeStyles(theme=>({
     root:{
@@ -48,13 +47,16 @@ const useStyles = makeStyles(theme=>({
         flexDirection:"column",
         alignItems:"center",
         "& > *":{
-            margin:"7px 0 !important"
+            margin:"10px 0 !important"
         } 
     },
     title:{
         fontSize:"24px",
-        fontWeight:"300",
-        margin:"0"
+        fontWeight:"700",
+        margin:"0",
+        [theme.breakpoints.down('xs')]:{
+            fontSize:"23px",
+        }
     },
     searchInput: {
         padding: "0px 8px",
@@ -78,6 +80,7 @@ const useStyles = makeStyles(theme=>({
       },
       button:{
           width:"80%",
+          fontWeight:"700",
           textTransform:"none",
           [theme.breakpoints.down('xs')]:{
             width:"90%",
@@ -116,12 +119,13 @@ const useStyles = makeStyles(theme=>({
           }
       }
 }))
-
     const  UpworkLogin = (props)=> {
 
-    const classes = useStyles()
-
     document.title="Log In - Upwork"
+
+    const {data,uClear,uInvalid,history} = props
+
+    const classes = useStyles()
 
     const theme = useTheme()
 
@@ -133,9 +137,22 @@ const useStyles = makeStyles(theme=>({
     
     const singIN = (data,e) =>{
         e.preventDefault()
-        props.vUsername(data)
-
+        uInvalid(data)
     }
+
+    React.useEffect(()=>{
+        if(data.isLogin === true){
+            history.push('/upwork')
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[data])
+
+    React.useEffect(()=>{
+        if(data.username !== ""){
+            history.push('/login/password')
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[data])
 
     React.useEffect(()=>{
         if(errors.username){
@@ -145,27 +162,17 @@ const useStyles = makeStyles(theme=>({
     },[errors])
 
     const clickSingUp = ()=>{
-        props.history.push('/using')
+        history.push('/using')
     }
 
     return (
-        <div className={classes.root}>
-            <CssBaseline/>
-          <AppBar color="secondary" position="fixed" elevation={1}>
-              <Toolbar disableGutters className={classes.bar}>
-              <img src="https://fulltimehomebusiness.com/wp-content/uploads/2019/07/Upwork-logo.png"
-                    height="33px"
-                    alt="log"/>
-              </Toolbar>
-            </AppBar>  
-            <main style={{width:"100%"}}>
-            <div className={classes.toolbar}/>
+        <>
             <div style={{
                 display:"flex",
                 flexDirection:"column",
                 alignItems:"center"
             }}>
-                { errors.username
+            { errors.username
                 ?
             <Card
                 style={{
@@ -195,6 +202,7 @@ const useStyles = makeStyles(theme=>({
                         placeholder="Username or Email"
                         disabled={open}
                         name='username'
+                        onFocus={()=>uClear()}
                         inputRef={register({required: true,minLength:3})}
                         startAdornment={
                         <>
@@ -205,16 +213,44 @@ const useStyles = makeStyles(theme=>({
                         </>
                         }
                     /> 
-                    <div
+                  <div
                         className={classes.error}
+                        style={{
+                            display: errors.username ? "flex" : "none"
+                        }}
                     >
-                        {errors.username  ? <Error style={{
-                            marginRight:"10px",
-                        }} fontSize="small"/> : "" }
                        
                         {
-                         errors.username && <ErrorMessage errors={errors.username.type}/>
-                     } 
+                         errors.username && 
+                         <div
+                         style={{
+                            display:"flex",
+                            alignItems:"center"
+                        }}
+                         >
+                            <Error style={{ marginRight:"10px"}} fontSize="small"/>
+                            <ErrorMessage errors={errors.username.type}/>
+                         </div>
+                        }
+                    </div>
+                    <div
+                      className={classes.error}
+                      style={{
+                          display: data.errors.username ? "flex" : "none"
+                      }}
+                    >
+                    {data.errors.username  ? 
+                        <div
+                            style={{
+                                display:"flex",
+                                alignItems:"center"
+                            }}
+                        >
+                            <Error style={{ marginRight:"10px"}} fontSize="small"/> 
+                            {data.errors.username}
+                        </div>
+                        :""
+                        }
                     </div>
                     <Button
                         type="submit"
@@ -256,10 +292,23 @@ const useStyles = makeStyles(theme=>({
                         variant="contained"
                         style={{
                             backgroundColor:"#4285F4",
-                            color:"#fff"
+                            color:"#fff",
+
                         }}
                         
                     >
+                        <img 
+                                src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/53/Google_%22G%22_Logo.svg/1200px-Google_%22G%22_Logo.svg.png"
+                                alt="logo"
+                                height="33px"
+                                style={{
+                                    backgroundColor:"#fff",
+                                    position:"absolute",
+                                    padding:"5px",
+                                    left:"2px",
+                                    borderRadius:"3px"
+                                }}
+                        />
                         Sing in with Google
                     </Button>
                     <Button
@@ -272,13 +321,20 @@ const useStyles = makeStyles(theme=>({
                         <Apple style={{marginRight:"5px",fontSize:"14px"}}/> Sing in with Apple
                     </Button>
             </Card>
+            <div style={{
+                            height:"1px",
+                            width:xsMatch ? "100%":"500px",
+                            backgroundColor:"#e0e0e0"
+
+                        }}/>
             <div 
                 style={{
 
-                    backgroundColor:"#f2f2f2",
+                    backgroundColor:"#fff",
                     width:xsMatch ? "100%":"500px",
-                    padding:xsMatch ? "20px 10px":"30px 0",
+                    padding:xsMatch ? "30px 10px":"30px 0",
                     display:"flex",
+                    marginBottom: xsMatch ? "0":"30px", 
                     flexDirection:"column",
                     alignItems:"center",
                     boxShadow: "0px 2px 1px -1px rgba(0,0,0,0.2), 0px 1px 1px 0px rgba(0,0,0,0.14), 0px 1px 3px 0px rgba(0,0,0,0.12"                
@@ -313,7 +369,7 @@ const useStyles = makeStyles(theme=>({
                 <Button
                         className={classes.button}
                         style={{
-                            width:"40%",
+                            width:"50%",
                             color:"#37a000",
                             backgroundColor:"#fff",
                             
@@ -324,27 +380,8 @@ const useStyles = makeStyles(theme=>({
                         Sing Up
                     </Button>
                 </div>
-                <div 
-                    style={{
-                        backgroundColor:"#222222",
-                        width:"100%",
-                        padding:"20px 0",
-                        display:"flex",
-                        flexDirection:"column",
-                        alignItems:"center"
-                    }}
-                >
-                    <Typography className={classes.footerTitle}>
-                        © 2015 - 2020 Upwork® Global Inc.
-                    </Typography>
-                    <Link className={classes.link} to="/upwork">Terms of Service</Link>
-                    <Link className={classes.link} to="/upwork">Privacy Policy</Link>
-                    <Link className={classes.link} to="/upwork">Accessibility</Link>
-
-                </div>
             </div>
-        </main>
-        </div>
+        </>
     )
 }
 
@@ -354,7 +391,9 @@ const mapStateToProps = state =>({
 
 const mapDispatchToProps = dispatch =>{
     return{
-        vUsername: (username) => dispatch(vUsername(username)),
+        uInvalid: (username) => dispatch(uInvalid(username)),
+        uClear: () => dispatch(uClear),
+
         
     }
 }

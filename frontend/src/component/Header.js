@@ -1,5 +1,5 @@
 import React from "react";
-import {logout,leadSearch} from '../redux/lead/actions'
+import {leadSearch, logout} from '../redux/lead/actions'
 import {clearCart, removeCart} from '../redux/cart/actions'
 
 import {
@@ -30,6 +30,7 @@ import {
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import CustomeMenu from "./CustomeMenu";
+import { uLogout } from "../redux/auth/action";
 
 const useStyles = makeStyles((theme) => ({
   appbar: {
@@ -99,10 +100,10 @@ function Header({leads,clearCart,cart,removeCart,logout,history,leadSearch}) {
     setOpen(true);
   };
 
-  const singOUT = () =>{
+  const singOU = () =>{
     logout()
     clearCart()
-    history.push('/login')
+    history.push('/ulogin')
     setAnchorEl(null);
   }
 
@@ -191,7 +192,7 @@ function Header({leads,clearCart,cart,removeCart,logout,history,leadSearch}) {
             My account
           </MenuItem>
         </Link>
-          <MenuItem dense className={classes.menuItem} onClick={singOUT}>
+          <MenuItem dense className={classes.menuItem} onClick={singOU}>
             Logout
           </MenuItem>
       </Menu>
@@ -238,7 +239,8 @@ function Header({leads,clearCart,cart,removeCart,logout,history,leadSearch}) {
 
 const mapStateToProps = state =>({
   leads : state.leads.leads,
-  cart : state.cart.cart
+  cart : state.cart.cart,
+  auth:state.leads.auth
 
 })
 
