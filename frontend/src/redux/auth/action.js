@@ -1,6 +1,7 @@
 import {SINGIN,SINGUP,LOGOUT,ERRORS,USERNAME} from './type'
 import axios from 'axios'
 import { tokenConfig } from '../common/getToken'
+import Cookies from 'js-cookie'
 
 export const vUsername = data => dispatch=>{
     axios({
@@ -15,7 +16,7 @@ export const vUsername = data => dispatch=>{
             if(res.data.username === "Available"){
             dispatch({
                 type:USERNAME,
-                payload:data.username
+                payload:{'username':data.username,'option':"singup"}
             })}
             else{
                 dispatch({
@@ -45,7 +46,7 @@ export const vUsername = data => dispatch=>{
                 if(res.data.username === "This username is valid"){
                 dispatch({
                     type:USERNAME,
-                    payload:data.username
+                    payload:{'username':data.username,'option':"singin"}
                 })}
                 else{
                     dispatch({
@@ -73,10 +74,13 @@ export const uSingIn = data => dispatch=>{
         }
         })        
         .then(res=>
+            {
+                Cookies.set('token',res.data)
             dispatch({
                 type:SINGIN,
                 payload:res.data
             })
+        }
         )
         .catch(err=>
             dispatch({
@@ -97,9 +101,10 @@ export const uSingUp = data => dispatch=>{
         }
         })        
         .then(res=>{
+            Cookies.set('token',res.data)
             dispatch({
                 type:SINGUP,
-                payload:res
+                payload:res.data.token_response
             })
         }
         )
@@ -113,6 +118,7 @@ export const uSingUp = data => dispatch=>{
     }
 
 export const uLogout = dispatch =>{
+    Cookies.remove('token')
     dispatch({
         type:LOGOUT,
     })

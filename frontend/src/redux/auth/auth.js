@@ -2,6 +2,7 @@ import {SINGIN,SINGUP,LOGOUT,ERRORS,USERNAME} from './type'
 
 const initialState = {
     username:"",
+    option:"",
     isLogin:false,
     user:{},
     errors:{}
@@ -14,7 +15,8 @@ export default function (state=initialState,action){
             return{
                 ...state,
                 isLogin:false,
-                username:action.payload,
+                username:action.payload.username,
+                option:action.payload.option,
                 user:{},
                 errors:{}
             }

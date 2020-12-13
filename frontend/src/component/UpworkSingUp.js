@@ -152,6 +152,14 @@ const UpworkSingUp = (props) =>{
     }
 
     React.useEffect(()=>{
+        if(data.isLogin === true){
+            props.history.push('/dashboard')
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[data])
+
+
+    React.useEffect(()=>{
         if(data.username !== ""){
             props.history.push('/login/password')
         }

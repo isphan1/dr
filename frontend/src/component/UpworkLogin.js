@@ -142,7 +142,7 @@ const useStyles = makeStyles(theme=>({
 
     React.useEffect(()=>{
         if(data.isLogin === true){
-            history.push('/upwork')
+            history.push('/dashboard')
         }
     // eslint-disable-next-line react-hooks/exhaustive-deps
     },[data])

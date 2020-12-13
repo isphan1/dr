@@ -14,6 +14,7 @@ import Review from "./Review";
 import Skills from "./Skills";
 import Demo from "./Demo";
 import Footer from "./Footer";
+import { connect } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -26,15 +27,21 @@ const useStyles = makeStyles((theme) => ({
     appBar: {
         padding:"0 100px",
         [theme.breakpoints.down('md')]:{
-            padding:"0",
+            padding:"0 10px",
         },
         boxShadow: "0 0 1px #000",
     },
 }));
 
-export default function Upwork(props) {
+ const Upwork = (props) =>{
     const classes = useStyles();
     document.title = "In-demand talent on demand";
+    React.useEffect(()=>{
+        if(props.data.isLogin === true){
+            props.history.push('/dashboard')
+        }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    },[props.data])
 
     return (
         <div className={classes.root}>
@@ -65,3 +72,10 @@ export default function Upwork(props) {
         </div>
     );
 }
+
+const mapStateToProps = state =>({
+    data : state.auth
+})
+
+
+export default connect(mapStateToProps)(Upwork)

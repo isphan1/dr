@@ -20,6 +20,9 @@ const useStyles = makeStyles(theme=>({
         borderRadius:"2px",
         width:"60%",
         fontSize:"13px",
+        // [theme.breakpoints.down("md")]: {
+        //     width:"70%",
+        // },
         [theme.breakpoints.down("sm")]: {
           display: "none",
         },
@@ -116,12 +119,18 @@ const useStyles = makeStyles(theme=>({
       },
       menuDesign: {
         "& .MuiMenu-paper": {
-          width: "22.2%",
+          width: "20%",
+          [theme.breakpoints.down("md")]: {
+            width: "21.5%",
+        },
         },
         "& .MuiPaper-root": {
           // right:"0",
-          left:"19.9% !important",
-          top: "3.2rem !important",
+          left:"23.3% !important",
+          top: "3.22rem !important",
+          [theme.breakpoints.down("md")]: {
+            left:"17.3% !important",
+          },
           [theme.breakpoints.down("xs")]: {
             top: "3.7rem !important",
           },

@@ -5,7 +5,7 @@ import { useForm } from 'react-hook-form'
 import ErrorMessage from './ErrorMessage'
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
-import { uSingIn, uError, uClear } from '../redux/auth/action'
+import { uSingIn, uSingUp,uError, uClear } from '../redux/auth/action'
 import Recaptcha from 'react-recaptcha'
 import { getLeads } from '../redux/lead/actions'
 
@@ -159,6 +159,12 @@ const useStyles = makeStyles(theme=>({
 
     }
 
+    const singUP = (data,e) =>{
+        e.preventDefault()
+        props.uSingUp({username:props.data.username,...data})
+
+    }
+
     React.useEffect(()=>{
         if(errors.password){
         setOpen(!open)
@@ -251,7 +257,8 @@ const useStyles = makeStyles(theme=>({
                 <Typography>
                     {props.data.username}
                 </Typography>
-                <form className={classes.form} onSubmit={handleSubmit(singIN)} autoComplete="off">
+                <form className={classes.form} onSubmit={props.data.option === 'singin' ? handleSubmit(singIN) : handleSubmit(singUP)} 
+                autoComplete="off">
                 <InputBase
                         className={classes.searchInput}
                         placeholder="Password"
@@ -335,7 +342,8 @@ const useStyles = makeStyles(theme=>({
                         </Grid>
                     </Grid>
                         <Recaptcha
-                            sitekey="6Lc3Hv8ZAAAAAPwoOAk8ZhFv53Y8rCFEpTIjiND1"
+                            sitekey="6LdBtQEaAAAAAP8gvFtlOT9O_Y6A_B2Sz9DryL4G"
+                            // sitekey="6LedQwIaAAAAAFsDsDAEUZGZxMSFlpHtflOe9Dy1"
                             render="explicit"
                             verifyCallback={verifyCallback}
                             onloadCallback={callback}
@@ -390,7 +398,8 @@ const mapStateToProps = state =>({
 
 const mapDispatchToProps = dispatch =>{
     return{
-        uSingIn: (username) => dispatch(uSingIn(username)),
+        uSingIn: (user) => dispatch(uSingIn(user)),
+        uSingUp: (user) => dispatch(uSingUp(user)),
         uError: () => dispatch(uError),
         uClear: () => dispatch(uClear),
         fetchLead: () => dispatch(getLeads),

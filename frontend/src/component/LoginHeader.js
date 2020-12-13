@@ -1,10 +1,11 @@
-import { AppBar, CssBaseline,makeStyles,Menu,MenuItem,Toolbar, Typography,useTheme,useMediaQuery, IconButton } from '@material-ui/core'
+import { AppBar,Grid,InputBase, CssBaseline,makeStyles,Menu,MenuItem,Toolbar, Typography,useTheme,useMediaQuery, IconButton } from '@material-ui/core'
 import React from 'react'
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
-import { Settings } from '@material-ui/icons'
+import {Search,Settings,KeyboardArrowDown, Notifications,Help,NearMe,AssignmentTurnedIn,Receipt} from '@material-ui/icons'
 import { tokenFresh, uLogout } from '../redux/auth/action'
 import { addLead } from '../redux/lead/actions'
+import Footer from './Dfooter'
 
 const useStyles = makeStyles(theme=>({
     root:{
@@ -17,7 +18,7 @@ const useStyles = makeStyles(theme=>({
     },
     bar:{
         padding:"0 150px",
-        [theme.breakpoints.down('sm')]:{
+        [theme.breakpoints.down('md')]:{
             padding:"0 80px"
         },
         [theme.breakpoints.down('xs')]:{
@@ -65,6 +66,10 @@ const useStyles = makeStyles(theme=>({
       menuLink: {
         textDecoration: "none",
         color: "#000",
+        fontSize:"16px",
+        "&:hover":{
+          color: "#37a000",
+        }
       },
     
       menuItem: {
@@ -74,7 +79,65 @@ const useStyles = makeStyles(theme=>({
           minHeight: "24px",
         },
       },
+
+      searchInput: {
+        padding: "0px 0px 0px 8px",
+        fontFamily:"Raleway",
+        fontWeight:"300",
+        height:"36px",
+        backgroundColor:"#fff",
+        border:".5px solid #e0e0e0",
+        borderRadius:"15px",
+        width:"100%",
+        fontSize:"14px",
+        // [theme.breakpoints.down("md")]: {
+        //     width:"70%",
+        // },
+        [theme.breakpoints.down("sm")]: {
+          display: "none",
+        },
+        "&:hover": {
+            borderRadius:"5px",
+            // boxShadow:"inset 0 0 5px rgba(57,73,76,.4)",
+            outline:".5px solid #37a000",
+            outlineStyle:"auto"
+        },
+        "& .MuiSvgIcon-root": {
+          marginRight: "1px",
+        },
+      },
 }))
+
+const searchItem = (search) =>{
+  console.log(search)
+}
+
+const searchList = [
+  {'icon':
+      <Search
+      fontSize="small" 
+      style={{color:"#37a000",
+      cursor:"pointer"}}
+      onClick={()=>searchItem('search')}
+      />
+  ,'title':"Browse talent"},
+  {'icon':
+  <AssignmentTurnedIn 
+        fontSize="small" 
+        style={{color:"#37a000",
+        cursor:"pointer"}}
+        onClick={()=>searchItem('projects')}  
+  />,
+  'title':"Shop by project"},
+  {'icon':
+  <Receipt 
+      fontSize="small" 
+      style={{color:"#37a000",
+      cursor:"pointer"}}
+      onClick={()=>searchItem('jobs')}  
+  />,
+  'title':"Explore jobs"},
+]
 
     const  LoginHeader = (props)=> {
 
@@ -82,37 +145,58 @@ const useStyles = makeStyles(theme=>({
 
     const classes = useStyles()
 
+    const [search,setSearch] = React.useState(undefined)
+    const [anchorEl,setAnchorEl] = React.useState(null)
+
+    const handleClose = (data)=>{
+      setAnchorEl(null)
+      setSearch(searchList[data])
+  }
+    const handleOpen = (e) =>{
+      setAnchorEl(e.currentTarget)
+    }
+    
     const theme = useTheme()
     const smMatch = useMediaQuery(theme.breakpoints.down('sm'))
 
-    const [anchorEl,setAnchorEl] = React.useState(null)
+    const [anchorEl1,setAnchorEl1] = React.useState(null)
 
     const singOUT = ()=>{
         props.logout()
         props.children.props.history.push('/ulogin')
     }
 
-    const handleClose = () => {
-        setAnchorEl(null);
-      };
-    
-      const handleClick = (event) => {
-        setAnchorEl(event.currentTarget);
+    const handleClose1 = () => {
+        setAnchorEl1(null);
       };
 
+
+      const handleClick = (event) => {
+        setAnchorEl1(event.currentTarget);
+      };
+
+      
     return (
         <div className={classes.root}>
             <CssBaseline/>
           <AppBar color="secondary" position="fixed" elevation={1}>
               <Toolbar disableGutters className={classes.bar}>
+                <Grid container alignItems="center">
+                  <Grid item md={2}>
+                <Link to="/"
+                  style={{
+                      marginRight:"auto"
+                  }}
+                >
                 <img src="https://fulltimehomebusiness.com/wp-content/uploads/2019/07/Upwork-logo.png"
                     height="33px"
                     alt="log"
-                    style={{
-                        marginRight:"auto"
-                    }}
                 />
+                </Link>
+                </Grid>
+                
                 { val === "/using"?
+                <Grid item>
                 <Typography
                     style={{
                         fontSize:"14px",
@@ -121,16 +205,66 @@ const useStyles = makeStyles(theme=>({
                 >
                     Already have an account? <Link className={classes.loginLink} to="/ulogin" >Log In</Link>
                 </Typography>
-                :""}
-                {
-                    val ==="/dashboard" ?
-                    <IconButton
-                        onClick={handleClick}
-                    >
-                        <Settings fontSize="small"></Settings>
-                    </IconButton>
-                    :""
+                </Grid>
+                :""
                 }
+                {
+                  val ==="/dashboard" ?
+                  
+                  <Grid container item md={10} alignItems="center" justify="space-between">
+                    <Grid item md={4}>
+                        <InputBase
+                        className={classes.searchInput}
+                        placeholder={search === undefined ? "search": search.title}
+                        startAdornment={
+                        <>
+                        {
+                          search === undefined ?
+                          searchList[0].icon : search.icon
+                        }
+                        <KeyboardArrowDown 
+                            fontSize="small" 
+                            style={{color:"#37a000",cursor:"pointer"}}
+                            onClick={(e)=>handleOpen(e)}
+                        />
+                        </>
+                        }
+                    /> 
+                    </Grid>
+                    <Grid item md={8} container justify="space-around" alignItems="center">
+                      <Grid item md={8} container justify="space-around" alignItems="center">
+                        <Link className={classes.menuLink} to="/">Find Work</Link>
+                        <Link className={classes.menuLink} to="/">My Jobs</Link>
+                        <Link className={classes.menuLink} to="/">Reports</Link>
+                        <Link className={classes.menuLink} to="/">Message</Link>
+                        </Grid>
+                        <Grid item md={4} container justify="space-evenly" alignItems="center">
+                          <IconButton size="small">
+                            <Help
+                            />
+                          </IconButton>
+                          <IconButton size="small">
+                            <Notifications
+                            />
+                          </IconButton>
+                          <IconButton size="small">
+                            <NearMe
+                            />
+                          </IconButton>
+                          <IconButton
+                            size="small"
+                            onClick={handleClick}
+
+                          >
+                            <Settings 
+                            />
+                          </IconButton>
+                          </Grid>
+                    </Grid>
+                  </Grid>
+                  :""
+                }
+                </Grid>
               </Toolbar>
             </AppBar>  
             <main style={{width:"100%"}}>
@@ -141,11 +275,11 @@ const useStyles = makeStyles(theme=>({
                 }
       <Menu
         id="simple-menu"
-        anchorEl={anchorEl}
+        anchorEl={anchorEl1}
         keepMounted
         className={classes.menuDesign}
-        open={Boolean(anchorEl)}
-        onClose={handleClose}
+        open={Boolean(anchorEl1)}
+        onClose={handleClose1}
       >
         <Link to="/" className={classes.menuLink}>
           <MenuItem dense className={classes.menuItem} onClick={handleClose}>
@@ -160,7 +294,11 @@ const useStyles = makeStyles(theme=>({
           <MenuItem dense className={classes.menuItem} onClick={singOUT}>
             Logout
           </MenuItem>
-      </Menu>
+        </Menu>{
+          val === "/dashboard" ? 
+          
+          <Footer />
+          :
                 <div 
                     style={{
                         backgroundColor:"#222222",
@@ -179,7 +317,29 @@ const useStyles = makeStyles(theme=>({
                     <Link className={classes.link} to="/upwork">Accessibility</Link>
 
                 </div>
+    }
         </main>
+        <Menu
+            className={classes.menuDesign}
+            id="simple-search"
+            anchorEl={anchorEl}
+            keepMounted
+            open={Boolean(anchorEl)}
+            onClose={handleClose}
+            >
+              {searchList.map((item,index)=>(
+                <MenuItem
+                key={index}
+                style={{
+                    fontSize:"13px",
+                    color:search ==="" ? "#37a000" : "#1D4354"
+                }}
+                onClick={()=>handleClose(index)}>
+                  {item.icon}
+                  <span style={{marginLeft:"7px"}}>{item.title}</span>
+                </MenuItem> 
+            ))}
+        </Menu> 
         </div>
     )
 }
@@ -190,7 +350,7 @@ const mapStateToProps = state =>({
 
 const mapDispatchToProps = dispatch =>{
     return{
-        logout: (username) => dispatch(uLogout),
+        logout: () => dispatch(uLogout),
         addLead: () => dispatch(addLead),
         tokenFresh: () => dispatch(tokenFresh),
 

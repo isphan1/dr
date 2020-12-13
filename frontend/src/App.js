@@ -61,21 +61,21 @@ const pages= [
   // },
   {
     exect:true,
-    Route:Route,
+    Route:ProtectedRoute,
     path:"/",
     component:Upwork,
     layout:publicLayout,
   },
   {
     exect:true,
-    Route:Route,
+    Route:ProtectedRoute,
     path:"/ulogin",
     component:UpworkLogin,
     layout:LoginHeader,
   },
   {
     exect:true,
-    Route:Route,
+    Route:ProtectedRoute,
     path:"/using",
     component:UpworkSingUp,
     layout:LoginHeader,
@@ -89,7 +89,7 @@ const pages= [
   },
   {
     exect:true,
-    Route:Route,
+    Route:PrivateRoute,
     path:"/dashboard",
     component:Dashboard,
     layout:LoginHeader,
