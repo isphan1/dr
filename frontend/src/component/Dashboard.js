@@ -7,7 +7,11 @@ import {
   IconButton,
   Divider,
   Button,
+  useTheme,
+  useMediaQuery,
 } from "@material-ui/core";
+import Cookies from 'js-cookie'
+import slug from 'slugify'
 import {
   Create,
   Language,
@@ -18,11 +22,12 @@ import {
   MoreHoriz,
   ThumbDownAltOutlined,
   FavoriteBorder,
-  LocationOnOutlined,
   CheckCircle,
+  Room,
 } from "@material-ui/icons";
 import React from "react";
 import Rating from "@material-ui/lab/Rating";
+import Skeleton from '@material-ui/lab/Skeleton';
 
 import './dash.scss'
 import { Link } from "react-router-dom";
@@ -71,18 +76,24 @@ const useStyles = makeStyles((theme) => ({
     [theme.breakpoints.down("md")]: {
       padding: "30px 50px",
     },
+    [theme.breakpoints.down("xs")]: {
+      padding: "30px 10px",
+    },
   },
   profile: {
     paddingLeft: "35px",
     "& > *": {
       marginBottom: "15px",
     },
+    [theme.breakpoints.down('sm')]:{
+      display:"none"
+    }
   },
   visibility: {
     display: "flex",
     // alignItems:"center",
     "& > *": {
-      marginRight: "15px",
+      marginRight: "10px",
     },
   },
   item: {
@@ -97,51 +108,119 @@ const useStyles = makeStyles((theme) => ({
     },
   },
   typeText: {
-    padding: "2.5px 10px",
+    padding: "2.5px 7.5px",
     borderRadius: "20px",
     backgroundColor: "#f9f3f3",
   },
 }));
 
 const Dashboard = (props) => {
-  const leads = props.data;
 
   const classes = useStyles();
 
   const [currentPage,setCurrentPage] = React.useState(1)
 
+  const [val,setVal] = React.useState("")
+
+  const theme = useTheme()
+  const smMatch = useMediaQuery(theme.breakpoints.down('sm'))
+
+  const [search,setSearch] = React.useState("")
+  const [data,setData] = React.useState(props.data)
   const postPerPage = 3
+
+  const [loading,setLoading] = React.useState(true)
 
   const lastIndex = currentPage * postPerPage
   const fristIndex = 0
-  const data = leads.slice(fristIndex,lastIndex)
+  const leads = data.slice(fristIndex,lastIndex)
 
   const loadItem = () =>{
     setCurrentPage(prev => {
-      console.log(prev)
       return prev +1
     })  
   }
+  const addSearch = (e) =>{
+    setVal(e.target.value)
+  }
+
+  const filterItem = () =>{
+    setLoading(true)
+    setSearch(val)
+  }
+
+  React.useEffect(()=>{
+    setLoading(true)
+
+    if(search.length > 0){
+      let a = props.data.filter(item =>{
+          return item.title.indexOf(search) !== -1;
+      })
+    setData(a)
+  }
+  else{
+      setData(props.data)
+  }
+  setCurrentPage(1)
+  },[search,props.data])
+
+
+  React.useEffect(()=>{
+      setTimeout(() => {
+        setLoading(false)
+      }, 3000);
+  },[loading])
 
   document.title = "My Job Feed";
 
-  // React.useEffect(() => {
-  //         setInterval(() => {
-  //             props.getLeads()
-  //         },120000);
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [])
+  React.useEffect(() => {
+          
+              props.getLeads(Cookies.get('token'))
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
 
   return (
     <div className={classes.root}>
       <Grid container>
         <Grid item md={3} container justify="center">
-          <Typography variant="h5">Find Work</Typography>
+          <div 
+            style={{
+              display:smMatch ? "none":"flex",
+              flexDirection:"column"
+
+            }}
+          >
+          <Typography variant="h5"
+            style={{
+              fontWeight:"700"
+            }}
+          >
+            Find Work
+            </Typography>
+          <div className="feed" variant="subtitle2">
+            
+            <span style={{marginLeft:"7px"}}>My Feed</span>
+          </div>
+          <div className="box">
+          <Typography variant="subtitle1" style={{color:"#000",marginBottom:"30px"}}>Recommended</Typography>
+          <Typography variant="subtitle1" style={{color:"#000",fontSize:"18px", fontWeight:"700"}}>My Categories</Typography>
+          <Typography variant="subtitle1">Customer Service</Typography>
+          <Typography variant="subtitle1">Web Developmnet</Typography>
+          <Typography variant="subtitle1">Mobile Development</Typography>
+          <Typography variant="subtitle1">Data Entry</Typography>
+          <Typography variant="subtitle1">Data Vizualization</Typography>
+          <Typography variant="subtitle1">Machine Learning</Typography>
+          </div>
+
+          </div>
         </Grid>
         <Grid item md={6} container>
           <InputBase
+            autoComplete="off"
             className={classes.searchInput}
             placeholder="Search for jobs"
+            name='search'
+            onChange={(e)=>addSearch(e)}
             startAdornment={
               <>
                 <Search
@@ -158,7 +237,7 @@ const Dashboard = (props) => {
                     borderRadius: "2.5px",
                     right: "-3",
                   }}
-                  onClick={() => console.log("search.......")}
+                  onClick={() => filterItem()}
                 />
               </>
             }
@@ -187,11 +266,52 @@ const Dashboard = (props) => {
             <Divider />
             <Grid container>
               {
-                data.map((pop,index)=>(
+                loading  ? 
+                [1,2,3,4,5,6,7,89,10].map(item=>(
+                  <div key={item} style={{width:"100%"}}>
+                  <Grid
+                  className={classes.item}
+                  item
+                  style={{
+                    padding: "10px 20px 20px 20px",
+                    color: "#000",
+                  }}
+                  container
+                  md={12}
+                  sm={12}
+                  xs={12}
+                  justify="space-between"
+                  alignItems="center"
+                >
+                  <div key={item} style={{
+                    padding:"30px 20px"
+                  }}>
+                    <Skeleton width="120px"/>
+                    <Skeleton width="220px" animation="wave"/>
+                    <Skeleton width="320px" animation="wave"/>
+  
+                  </div>
+          </Grid>
+          <Grid item md={12} sm={12} xs={12}>
+                <Divider />
+              </Grid>
+              </div>
+                ))
+                :
+                leads.length <= 0 ?
+                <Grid className={classes.item}
+                style={{
+                  padding:"20px 20px 200px 20px"
+                }}
+                item>
+                  <p>Nothing found</p>
+                </Grid>
+                :
+                leads.map((pop,index)=>(
                     <div                 
                     key={index}
-                    >
-              <Grid
+                    >            
+            <Grid
                 className={classes.item}
                 item
                 style={{
@@ -201,6 +321,7 @@ const Dashboard = (props) => {
                 container
                 md={12}
                 sm={12}
+                xs={12}
                 justify="space-between"
                 alignItems="center"
               >
@@ -211,7 +332,14 @@ const Dashboard = (props) => {
                     fontFamily: "Roboto",
                   }}
                 >
+                <Link to={'/news/'+pop.id+'/'+slug(pop.title)}
+                    style={{
+                      textDecoration:"none",
+                      color:"#000"
+                    }}
+                  >
                   <b>{pop.title}</b>
+                  </Link>
                 </Typography>
                 <div>
                   <IconButton>
@@ -221,11 +349,17 @@ const Dashboard = (props) => {
                     <FavoriteBorder />
                   </IconButton>
                 </div>
-                <Grid item md={12} sm={12}>
+                <Link to={'/news/'+pop.id+'/'+slug(pop.title)}
+                    style={{
+                      textDecoration:"none",
+                      color:"#000"
+                    }}
+                  >
+                <Grid item md={12} sm={12} xs={12}>
                   <b>Fiexd price</b> - intermediate - Est. Budget: <b>200$</b> - Posted 7 days
                   ago
                 </Grid>
-                <Grid item md={12} sm={12}>
+                <Grid item md={12} sm={12} xs={12}>
                   <p>
                     {pop.body}
                     {/* We are looking for a MySQL expert to help us with resolving
@@ -263,7 +397,7 @@ const Dashboard = (props) => {
                     work.
                   </p> */}
                 </Grid>
-                <Grid item md={12} sm={12} className={classes.type}>
+                <Grid item md={12} sm={12} xs={12} className={classes.type}>
                   <span className={classes.typeText}>Database Design</span>
                   <span className={classes.typeText}>
                     Database Optimization
@@ -280,12 +414,12 @@ const Dashboard = (props) => {
                   }}
                 >
                   <span style={{
-                    marginLeft:"10px"
+                    marginLeft:"5px"
                   }}>
-                    <b>Proposals:</b> 5 to 10
+                    Proposals: <b>5 to 10</b>
                   </span>
                 </Grid>
-                <Grid item md={12} sm={12}>
+                <Grid item md={12} sm={12} xs={12}>
                   <div
                     variant="subtitle2"
                     className={classes.type}
@@ -302,7 +436,7 @@ const Dashboard = (props) => {
                     >
                     <CheckCircle
                       style={{
-                        color: "#7a7ab1",
+                        color: "#c5c5d6",
                         height:"18px"
                       }}
                     />
@@ -319,7 +453,7 @@ const Dashboard = (props) => {
                       readOnly
                     />
                     <span>
-                      $1k+ <b>spent</b>
+                    <b>$1k+</b> spent
                     </span>
                     <div
                       style={{
@@ -327,23 +461,26 @@ const Dashboard = (props) => {
                         alignItems: "center",
                       }}
                     >
-                    <LocationOnOutlined 
+                    <Room 
                              style={{
-                              color: "#a37000",
                               height:"20px"
                             }}
                     />
-                    <span>Pakistan</span>
+                    <span><b>Pakistan</b></span>
                     </div>
                   </div>
                 </Grid>
+                </Link>
               </Grid>
-                <Grid item md={12} sm={12}>
+                <Grid item md={12} sm={12} xs={12}>
                 <Divider />
               </Grid>
               </div>
                 ))}
             </Grid>
+            {
+              loading ? "" :
+              leads.length <= 0 ? "" :
             <div
             style={{
               display:"flex",
@@ -361,6 +498,7 @@ const Dashboard = (props) => {
         Load More
       </Button>
       </div>
+      }
           </Card>
         </Grid>
         <Grid
@@ -382,7 +520,7 @@ const Dashboard = (props) => {
             }}
           >
             <img
-              src="https://img.pngio.com/-girl-face-png-images-2789_3500.png"
+              src="./avatar.png"
               height="40px"
               alt="person"
               style={{
@@ -473,7 +611,7 @@ const mapStateToProps = (state) => ({
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    getLeads: () => dispatch(getLeads),
+    getLeads: (token) => dispatch(getLeads(token)),
   };
 };
 

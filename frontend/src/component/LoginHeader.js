@@ -1,11 +1,30 @@
-import { AppBar,Grid,InputBase, CssBaseline,makeStyles,Menu,MenuItem,Toolbar, Typography,useTheme,useMediaQuery, IconButton } from '@material-ui/core'
+import { AppBar,Grid,InputBase, CssBaseline,makeStyles,Menu,MenuItem,Toolbar, Typography,useTheme,useMediaQuery, IconButton, Tab, Tabs } from '@material-ui/core'
 import React from 'react'
 import {Link} from 'react-router-dom'
 import { connect } from 'react-redux'
-import {Search,Settings,KeyboardArrowDown, Notifications,Help,NearMe,AssignmentTurnedIn,Receipt} from '@material-ui/icons'
+import {Search,Settings,KeyboardArrowDown, Notifications,Help,NearMe,AssignmentTurnedIn,Receipt,Menu as MenuIcon} from '@material-ui/icons'
 import { tokenFresh, uLogout } from '../redux/auth/action'
 import { addLead } from '../redux/lead/actions'
 import Footer from './Dfooter'
+
+
+const tabList=[
+  {'title':'Find Work','val':0},
+  {'title':'My Jobs','val':1},
+  {'title':'Reports','val':2},
+  {'title':'Message','val':3},
+]
+
+const findTabs=[
+  {'title':"Find Work",'link':"/dashboard"},
+  {'title':"Saved Jobs",'link':"/dashboard"},
+  {'title':"Proposals",'link':"/dashboard"},
+  {'title':"Profile",'link':"/dashboard"},
+  {'title':"My stats",'link':"/dashboard"},
+  {'title':"Upwork Readiness test",'link':"/dashboard"},
+  {'title':"My Project Dashboard",'link':"/dashboard"},
+
+]
 
 const useStyles = makeStyles(theme=>({
     root:{
@@ -73,11 +92,15 @@ const useStyles = makeStyles(theme=>({
       },
     
       menuItem: {
-        minHeight: "48px",
+        // minHeight: "48px",
         textAlign: "center",
         [theme.breakpoints.down("xs")]: {
           minHeight: "24px",
         },
+        // "&:hover":{
+        //   backgroundColor:"#fff",
+        //   color:"#37a000"
+        // }
       },
 
       searchInput: {
@@ -147,6 +170,10 @@ const searchList = [
 
     const [search,setSearch] = React.useState(undefined)
     const [anchorEl,setAnchorEl] = React.useState(null)
+    const [anchorEl2,setAnchorEl2] = React.useState(null)
+
+    const [selectedIndex,setSelectedIndex] = React.useState(-1)
+    const [value,setValue] = React.useState(0)
 
     const handleClose = (data)=>{
       setAnchorEl(null)
@@ -170,37 +197,74 @@ const searchList = [
         setAnchorEl1(null);
       };
 
+    const handleClose2 = () => {
+        setAnchorEl2(null);
+      };
 
       const handleClick = (event) => {
         setAnchorEl1(event.currentTarget);
       };
 
+      const handleClick1 = (event) => {
+        setAnchorEl2(event.currentTarget);
+      };
+
+      React.useEffect(()=>{
+        if(value !== 0 ){
+          setSelectedIndex(undefined)
+        }
+      },[value])
       
     return (
         <div className={classes.root}>
             <CssBaseline/>
-          <AppBar color="secondary" position="fixed" elevation={1}>
+          <AppBar style={{
+            backgroundColor:smMatch ? "#1D4354" : "#fff"
+            }}
+           position="fixed" elevation={0}>
               <Toolbar disableGutters className={classes.bar}>
                 <Grid container alignItems="center">
-                  <Grid item md={2}>
-                <Link to="/"
-                  style={{
-                      marginRight:"auto"
-                  }}
+                <Grid 
+                sm={4}
+                xs={2}
+                item
+                style={{
+                  display:smMatch ? 'flex':"none"
+                }}
                 >
-                <img src="https://fulltimehomebusiness.com/wp-content/uploads/2019/07/Upwork-logo.png"
-                    height="33px"
+                  <IconButton size="small">
+                    <MenuIcon 
+                      style={{color:"#fff",fontSize:"30px"}}
+                    />
+                  </IconButton>
+                </Grid>
+                  <Grid item md={2} sm={4}
+                    style={{
+                      textAlign: smMatch ? "center" : ""
+                    }}
+                  >
+                <Link to="/"
+                >
+                <img src=
+                
+                {
+                  smMatch ? "./logo.png" :
+                "https://fulltimehomebusiness.com/wp-content/uploads/2019/07/Upwork-logo.png"
+
+                   }
+                  height="33px"
                     alt="log"
                 />
                 </Link>
                 </Grid>
                 
                 { val === "/using"?
-                <Grid item>
+                <Grid item md={10} container justify="flex-end">
                 <Typography
                     style={{
                         fontSize:"14px",
-                        display:smMatch ? "none": "block"
+                        display:smMatch ? "none": "block",
+                        color:"#000"
                     }}
                 >
                     Already have an account? <Link className={classes.loginLink} to="/ulogin" >Log In</Link>
@@ -231,12 +295,35 @@ const searchList = [
                         }
                     /> 
                     </Grid>
-                    <Grid item md={8} container justify="space-around" alignItems="center">
+                    <Grid item md={8} container justify="space-around" alignItems="center"
+                      style={{
+                        display: smMatch ? "none" : "flex"
+                      }}
+                    >
                       <Grid item md={8} container justify="space-around" alignItems="center">
-                        <Link className={classes.menuLink} to="/">Find Work</Link>
-                        <Link className={classes.menuLink} to="/">My Jobs</Link>
-                        <Link className={classes.menuLink} to="/">Reports</Link>
-                        <Link className={classes.menuLink} to="/">Message</Link>
+                        <Tabs value={value}
+                        >
+                        {
+                          tabList.map((tab,index)=>(
+                              <Tab 
+                                key={index}
+                                // component={Link}
+                                // to="/"
+                                style={{
+                                  backgroundColor:"#fff",
+                                  cursor:"pointer",
+                                  color:"#000",
+                                  minWidth:"7px",
+                                  padding:"6px 5px",
+                                  fontSize:"12px"
+                                }}
+                              onMouseOver={tab.val ===0 ? handleClick1 : undefined}
+                              onClick={()=>setValue(index)}
+                              label={tab.title}
+                              />
+                          ))
+                        }
+                        </Tabs>
                         </Grid>
                         <Grid item md={4} container justify="space-evenly" alignItems="center">
                           <IconButton size="small">
@@ -265,6 +352,17 @@ const searchList = [
                   :""
                 }
                 </Grid>
+                <Grid 
+                item
+                style={{
+                  display:smMatch ? 'flex':"none"
+                }}
+                >
+                  <IconButton size="small">
+                    <Search                       
+                    style={{color:"#fff",fontSize:"30px"}}/>
+                  </IconButton>
+                </Grid>
               </Toolbar>
             </AppBar>  
             <main style={{width:"100%"}}>
@@ -275,6 +373,7 @@ const searchList = [
                 }
       <Menu
         id="simple-menu"
+        elevation={0}
         anchorEl={anchorEl1}
         keepMounted
         className={classes.menuDesign}
@@ -321,6 +420,7 @@ const searchList = [
         </main>
         <Menu
             className={classes.menuDesign}
+            elevation={0}
             id="simple-search"
             anchorEl={anchorEl}
             keepMounted
@@ -340,6 +440,30 @@ const searchList = [
                 </MenuItem> 
             ))}
         </Menu> 
+
+        <Menu
+        id="simple-tab"
+        elevation={1}
+        anchorEl={anchorEl2}
+        keepMounted
+        className={classes.menuDesign}
+        open={Boolean(anchorEl2)}
+        MenuListProps={{onMouseLeave:handleClose2}}
+      >
+        {
+          findTabs.map((item,i)=>(
+            <MenuItem key={item.title}
+              component={Link}
+              to={item.link}
+              selected={i === selectedIndex}
+              classes={{root:classes.menuItem}}
+              onClick={()=>{handleClose2();setSelectedIndex(i);setValue(0)}}
+            >
+              {item.title}
+            </MenuItem>
+          ))
+        }
+      </Menu>
         </div>
     )
 }

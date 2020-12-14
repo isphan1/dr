@@ -1,10 +1,18 @@
-.bar{
-    font-size: 20px;
-    &__title{
-        font-size: 36px;
-        display: none;
-        @media only screen and (min-width: 1200px) {
-            display: block;
-        }
-    }
+.feed{
+    padding:6px 0;
+    font-size: 18px;
+    font-weight: 700;
+    border-left: 5px solid #37a000;
+    margin: 45px 0 20px 0;
+
+}
+
+.box>h6{
+    font-family: Railway;
+    font-size: 14px;
+    font-weight: 700;
+
+    color:#37a000;
+    margin-left: 10px;
+    margin-bottom: 7px;
 }

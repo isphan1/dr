@@ -45,13 +45,13 @@ const pages= [
   //   component:Data,
   //   layout:authLayout
   // },
-  // {
-  //   exect:true,
-  //   Route:PrivateRoute,
-  //   path:"/news/:post_id/:slug",
-  //   component:Detail,
-  //   layout:authLayout
-  // },
+  {
+    exect:true,
+    Route:PrivateRoute,
+    path:"/news/:post_id/:slug",
+    component:Detail,
+    layout:authLayout
+  },
   // {
   //   exect:true,
   //   Route:Route,

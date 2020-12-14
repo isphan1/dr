@@ -18,8 +18,9 @@ export const addData = lead =>{
     }
 }
 
-export const getLeads = (dispatch,getState) =>{
-    const token = tokenConfig(getState)
+export const getLeads = (token) => (dispatch,getState) =>{
+    // const token = tokenConfig(getState)
+    console.log(token)
 if(token){
     axios({
         method:"get",

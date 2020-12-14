@@ -1,6 +1,5 @@
 from django.shortcuts import render
 from django.http.response import HttpResponse,HttpResponseNotFound
-import os
 from django.views import View
 
 def index(request):

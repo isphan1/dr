@@ -75,7 +75,7 @@ export const uSingIn = data => dispatch=>{
         })        
         .then(res=>
             {
-                Cookies.set('token',res.data)
+                Cookies.set('token',res.data.token)
             dispatch({
                 type:SINGIN,
                 payload:res.data
@@ -104,7 +104,7 @@ export const uSingUp = data => dispatch=>{
             Cookies.set('token',res.data)
             dispatch({
                 type:SINGUP,
-                payload:res.data.token_response
+                payload:data
             })
         }
         )

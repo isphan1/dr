@@ -341,19 +341,19 @@ const useStyles = makeStyles(theme=>({
                         <Link className={classes.linkTab} to="/reset">Forgot password?</Link>
                         </Grid>
                     </Grid>
-                        <Recaptcha
+                        {/* <Recaptcha
                             sitekey="6LdBtQEaAAAAAP8gvFtlOT9O_Y6A_B2Sz9DryL4G"
                             // sitekey="6LedQwIaAAAAAFsDsDAEUZGZxMSFlpHtflOe9Dy1"
                             render="explicit"
                             verifyCallback={verifyCallback}
                             onloadCallback={callback}
-                        />                    
+                        />                     */}
                     <Button
                         type="submit"
                         className={classes.button}
                         variant="contained"
                         color="primary"
-                        disabled={!recaptch}
+                        // disabled={!recaptch}
                     >
                         Log in
                     </Button>
