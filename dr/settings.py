@@ -26,7 +26,7 @@ SECRET_KEY = 'zk=ot9)7hb4p6!iv1gdv1enc&-)@fw(b%t1fwv9ffy*9sg5ujx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['0.0.0.0','127.0.0.1','localhost',]
+ALLOWED_HOSTS = ['https://myupwork.herokuapp.com/','0.0.0.0','127.0.0.1','localhost',]
 
 
 # Application definition
@@ -147,7 +147,7 @@ STATICFILES_DIRS = [
     os.path.join(BASE_DIR, './frontend/build/static'),
 ]
 
-STATIC_ROOT = os.path.join(BASE_DIR,'assets')
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
 
 
 REST_FRAMEWORK = {
