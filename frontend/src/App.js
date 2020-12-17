@@ -22,6 +22,8 @@ import LoginPass from "./component/LoginPass";
 import LoginHeader from "./component/LoginHeader";
 import Dashboard from "./component/Dashboard";
 import { date } from "faker";
+import JobDetail from "./component/JobDetail";
+import JobModal from "./component/JobModal";
 
 const pages= [
   {
@@ -92,6 +94,20 @@ const pages= [
     Route:PrivateRoute,
     path:"/dashboard",
     component:Dashboard,
+    layout:LoginHeader,
+  },
+  {
+    exect:true,
+    Route:PrivateRoute,
+    path:"/dashboard/detail/~:post_id/:slug",
+    component:JobModal,
+    layout:LoginHeader,
+  },
+  {
+    exect:true,
+    Route:PrivateRoute,
+    path:"/job/detail/~:post_id/:slug",
+    component:JobDetail,
     layout:LoginHeader,
   }
 ]

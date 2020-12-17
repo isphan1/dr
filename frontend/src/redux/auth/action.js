@@ -75,6 +75,7 @@ export const uSingIn = data => dispatch=>{
         })        
         .then(res=>
             {
+                Cookies.set('expires',res.data.expires)
                 Cookies.set('token',res.data.token)
             dispatch({
                 type:SINGIN,
@@ -101,7 +102,8 @@ export const uSingUp = data => dispatch=>{
         }
         })        
         .then(res=>{
-            Cookies.set('token',res.data)
+            Cookies.set('expires',res.data.expires)
+            Cookies.set('token',res.data.token)
             dispatch({
                 type:SINGUP,
                 payload:data
@@ -119,6 +121,7 @@ export const uSingUp = data => dispatch=>{
 
 export const uLogout = dispatch =>{
     Cookies.remove('token')
+    Cookies.remove('expires')
     dispatch({
         type:LOGOUT,
     })
@@ -135,9 +138,9 @@ export const uError = dispatch =>{
     })
 }
 
-export const tokenFresh = (dispatch,getState) =>{
+export const tokenFresh = (token) =>  (dispatch) =>{
 
-    const token = tokenConfig(getState)
+    // const token = tokenConfig(getState)
     axios({
         method:"post",
         url:"http://localhost:8000/api/refresh/",
@@ -148,16 +151,19 @@ export const tokenFresh = (dispatch,getState) =>{
         }
     })
     .then(res=>{
+        Cookies.set('expires',res.data.expires)
+        Cookies.set('token',res.data.token)
         dispatch({
             type:"TOKENFRESH",
             payload:res.data
         })
     })
     .catch(err=>{
-        dispatch({
-            type:ERRORS,
-            payload:err.data
-        })
+        console.log(err)
+        // dispatch({
+        //     type:ERRORS,
+        //     payload:err.data
+        // })
     })
 }
 

@@ -33,6 +33,7 @@ import './dash.scss'
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
 import { getLeads } from "../redux/lead/actions";
+import { tokenFresh, uLogout } from "../redux/auth/action";
 const useStyles = makeStyles((theme) => ({
   searchInput: {
     padding: "0px 0px 0px 8px",
@@ -121,7 +122,7 @@ const Dashboard = (props) => {
   const [currentPage,setCurrentPage] = React.useState(1)
 
   const [val,setVal] = React.useState("")
-
+  
   const theme = useTheme()
   const smMatch = useMediaQuery(theme.breakpoints.down('sm'))
 
@@ -130,6 +131,7 @@ const Dashboard = (props) => {
   const postPerPage = 3
 
   const [loading,setLoading] = React.useState(true)
+
 
   const lastIndex = currentPage * postPerPage
   const fristIndex = 0
@@ -166,18 +168,47 @@ const Dashboard = (props) => {
 
 
   React.useEffect(()=>{
-      setTimeout(() => {
-        setLoading(false)
-      }, 3000);
+    setTimeout(() => {
+      setLoading(false)
+      }, 500);
   },[loading])
+
+React.useEffect(()=>{
+
+  if(props.history !== undefined){
+    if(props.history.location !== undefined){
+      if(props.history.location.modalProps !== undefined){
+        var page = props.history.location.modalProps.page
+        setCurrentPage(page)
+        if(page< currentPage){
+          setCurrentPage(currentPage)
+        }
+      }
+    }
+  }
+},[props.history,currentPage])
 
   document.title = "My Job Feed";
 
   React.useEffect(() => {
-          
-              props.getLeads(Cookies.get('token'))
+      props.getLeads(Cookies.get('token'))
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  React.useEffect(()=>{
+          setInterval(() => {
+            if ((new Date(Cookies.get('expires')).getTime() -1000) < new Date().getTime()) {
+              props.fresh(Cookies.get('token'))
+            }
+          }, 1000);
+  },[props])
+
+  React.useEffect(()=>{
+      if (new Date(Cookies.get('expires')).getTime() < new Date().getTime()) {
+        props.logout()
+        window.location.reload()
+      }
+},[props])
 
   return (
     <div className={classes.root}>
@@ -310,7 +341,7 @@ const Dashboard = (props) => {
                 leads.map((pop,index)=>(
                     <div                 
                     key={index}
-                    >            
+                    >        
             <Grid
                 className={classes.item}
                 item
@@ -332,7 +363,12 @@ const Dashboard = (props) => {
                     fontFamily: "Roboto",
                   }}
                 >
-                <Link to={'/news/'+pop.id+'/'+slug(pop.title)}
+                <Link to={{
+                  pathname:'/dashboard/detail/~'+pop.id+'/'+slug(pop.title),
+                  propsModal:{
+                    page:currentPage
+                  }                
+                }}
                     style={{
                       textDecoration:"none",
                       color:"#000"
@@ -342,11 +378,11 @@ const Dashboard = (props) => {
                   </Link>
                 </Typography>
                 <div>
-                  <IconButton>
-                    <ThumbDownAltOutlined />
+                  <IconButton style={{background:"#f9f1f1",marginRight:"10px"}}>
+                    <ThumbDownAltOutlined size="small"/>
                   </IconButton>
-                  <IconButton>
-                    <FavoriteBorder />
+                  <IconButton  style={{background:"#f9f1f1"}}>
+                    <FavoriteBorder size="small"/>
                   </IconButton>
                 </div>
                 <Link to={'/news/'+pop.id+'/'+slug(pop.title)}
@@ -601,17 +637,22 @@ const Dashboard = (props) => {
           </div>
         </Grid>
       </Grid>
-    </div>
+      {/* <JobDetail modalOpen={true} handleClose={closeModal} item={item}/> */}
+      </div>
   );
 };
 
 const mapStateToProps = (state) => ({
+  auth:state.auth.user,
   data: state.leads.leads,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     getLeads: (token) => dispatch(getLeads(token)),
+    logout:() => dispatch(uLogout),
+    fresh:(token) => dispatch(tokenFresh(token)),
+
   };
 };
 

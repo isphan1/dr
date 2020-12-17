@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme=>({
         }
     },
     card:{
-        margin:"30px 0",
+        margin:"52px 0",
         padding:"30px 50px",
         width:"500px",
         display:"flex",

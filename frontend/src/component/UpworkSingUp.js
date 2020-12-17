@@ -135,6 +135,8 @@ const UpworkSingUp = (props) =>{
 
     const classes = useStyles()
 
+    const myRef = React.useRef(null)
+
     document.title="Create an Account - Upwork"
 
     const theme = useTheme()
@@ -148,6 +150,8 @@ const UpworkSingUp = (props) =>{
 
     const singUp = (data,e) =>{
         e.preventDefault()
+        console.log(e)
+        // myRef.current.focus()
         vUsername(data)
     }
 
@@ -254,13 +258,14 @@ const UpworkSingUp = (props) =>{
                         </Grid>
                      </Grid>
                 <form className={classes.form} onSubmit={handleSubmit(singUp)} autoComplete="off">
-                <InputBase
+                    <InputBase
                         className={classes.searchInput}
                         placeholder="Work email address"
                         disabled={open}
                         name='username'
                         onFocus={()=>uClear()}
                         inputRef={register({required: true,minLength:3})}
+                        // inputRef={myRef}
                         startAdornment={
                         <>
                         <Person

@@ -20,16 +20,15 @@ export const addData = lead =>{
 
 export const getLeads = (token) => (dispatch,getState) =>{
     // const token = tokenConfig(getState)
-    console.log(token)
-if(token){
-    axios({
-        method:"get",
-        url:"http://127.0.0.1:8000/api/",
-        headers:{
-            "content-type": "application/json",
-            "Authorization": "JWT "+ token
-        }
-        })        
+    if(token){
+        axios({
+            method:"get",
+            url:"http://127.0.0.1:8000/api/",
+            headers:{
+                "content-type": "application/json",
+                "Authorization": "JWT "+ token
+            }
+            })        
         .then(res=>
             dispatch(getData(res.data))
         )

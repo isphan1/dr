@@ -26,14 +26,13 @@ SECRET_KEY = 'zk=ot9)7hb4p6!iv1gdv1enc&-)@fw(b%t1fwv9ffy*9sg5ujx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['0.0.0.0','127.0.0.1','localhost',]
 
 
 # Application definition
 
 INSTALLED_APPS = [
-    # 'grappelli.dashboard',
-    # 'grappelli',
+
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -44,7 +43,8 @@ INSTALLED_APPS = [
     'rest_framework',
     'rest_framework_jwt',
     'frontend',
-    'leads'
+    'leads',
+    'django_summernote'
 ]
 
 MIDDLEWARE = [
@@ -57,6 +57,9 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 ]
+
+SECURE_CONTENT_TYPE_NOSNIFF = True
+
 
 ROOT_URLCONF = 'dr.urls'
 
@@ -145,7 +148,6 @@ STATICFILES_DIRS = [
 ]
 
 STATIC_ROOT = os.path.join(BASE_DIR,'assets')
-# GRAPPELLI_INDEX_DASHBOARD = 'dashboard.CustomIndexDashboard'
 
 
 REST_FRAMEWORK = {
