@@ -150,7 +150,6 @@ const UpworkSingUp = (props) =>{
 
     const singUp = (data,e) =>{
         e.preventDefault()
-        console.log(e)
         // myRef.current.focus()
         vUsername(data)
     }

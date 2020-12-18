@@ -266,7 +266,7 @@ React.useEffect(()=>{
                     width: "35px",
                     fontSize: "16px",
                     borderRadius: "2.5px",
-                    right: "-3",
+                    right: "0",
                   }}
                   onClick={() => filterItem()}
                 />
@@ -556,7 +556,7 @@ React.useEffect(()=>{
             }}
           >
             <img
-              src="./avatar.png"
+              src="/static/img/avatar.png"
               height="40px"
               alt="person"
               style={{

@@ -300,7 +300,7 @@ const LoginHeader = (props) => {
                 <img
                   src={
                     smMatch
-                      ? "/logo.png"
+                      ? "/static/img/logo.png"
                       : "https://fulltimehomebusiness.com/wp-content/uploads/2019/07/Upwork-logo.png"
                   }
                   height="33px"
