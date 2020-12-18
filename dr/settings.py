@@ -26,7 +26,7 @@ SECRET_KEY = 'zk=ot9)7hb4p6!iv1gdv1enc&-)@fw(b%t1fwv9ffy*9sg5ujx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ["*","https://myworkback.herokuapp.com/"]
+ALLOWED_HOSTS = ["*","https://myupwork.herokuapp.com/"]
 
 
 # Application definition
@@ -68,7 +68,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         # 'DIRS': [os.path.join(BASE_DIR, './frontend')],
-        'DIRS': ['templates'],
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
