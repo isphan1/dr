@@ -4,6 +4,8 @@ import {tokenConfig} from '../common/getToken'
 
 import faker from 'faker'
 
+const url = ""
+
 export const getData = leads =>{
     return{
         type:GET_LEADS,
@@ -23,8 +25,8 @@ export const getLeads = (token) => (dispatch,getState) =>{
     if(token){
         axios({
             method:"get",
-            url:"http://127.0.0.1:8000/api/",
-            headers:{
+            url:`${url}/`,
+           headers:{
                 "content-type": "application/json",
                 "Authorization": "JWT "+ token
             }
@@ -48,7 +50,7 @@ export const getLeads = (token) => (dispatch,getState) =>{
 
         axios({
             method:"post",
-            url:"http://127.0.0.1:8000/api/create/",
+            url:`${url}/create/`,
             data:{'title':title,'body':body},
             headers:{
                 "content-type": "application/json",
