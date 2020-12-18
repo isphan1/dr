@@ -3,7 +3,7 @@ from django.http.response import HttpResponse,HttpResponseNotFound
 from django.views import View
 
 def index(request):
-    return HttpResponse("<h1>Myupwork Backend<h1>")
+    return render(request,'build/index.html')
 
 # class Assets(View):
     
