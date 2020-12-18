@@ -4,7 +4,7 @@ import {tokenConfig} from '../common/getToken'
 
 import faker from 'faker'
 
-const url = ""
+const url ="https://myupwork.herokuapp.com/api"
 
 export const getData = leads =>{
     return{

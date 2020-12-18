@@ -1,12 +1,14 @@
 import {SINGIN,SINGUP,LOGOUT,ERRORS,USERNAME} from './type'
 import axios from 'axios'
-import { tokenConfig } from '../common/getToken'
+// import { tokenConfig } from '../common/getToken'
 import Cookies from 'js-cookie'
+
+const url ="https://myupwork.herokuapp.com/api"
 
 export const vUsername = data => dispatch=>{
     axios({
         method:"post",
-        url:"http://127.0.0.1:8000/api/username/",
+        url:`${url}/username/`,
         data:data,
         headers:{
             "content-type": "application/json",
@@ -36,7 +38,7 @@ export const vUsername = data => dispatch=>{
     export const uInvalid = data => dispatch=>{
         axios({
             method:"post",
-            url:"http://127.0.0.1:8000/api/invalid/",
+            url:`${url}/invalid/`,
             data:data,
             headers:{
                 "content-type": "application/json",
@@ -67,7 +69,7 @@ export const vUsername = data => dispatch=>{
 export const uSingIn = data => dispatch=>{
     axios({
         method:"post",
-        url:"http://127.0.0.1:8000/api/singin/",
+        url:`${url}/singin/`,
         data:data,
         headers:{
             "content-type": "application/json",
@@ -95,7 +97,7 @@ export const uSingIn = data => dispatch=>{
 export const uSingUp = data => dispatch=>{
     axios({
         method:"post",
-        url:"http://127.0.0.1:8000/api/singup/",
+        url:`${url}/singup/`,
         data:data,
         headers:{
             "content-type": "application/json",
@@ -143,7 +145,7 @@ export const tokenFresh = (token) =>  (dispatch) =>{
     // const token = tokenConfig(getState)
     axios({
         method:"post",
-        url:"http://localhost:8000/api/refresh/",
+        url:`${url}/refresh/`,
         data:{token},
         headers: {
             "content-type": "application/json",
