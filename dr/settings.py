@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'zk=ot9)7hb4p6!iv1gdv1enc&-)@fw(b%t1fwv9ffy*9sg5ujx'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ["*","https://myupwork.herokuapp.com/"]
 
