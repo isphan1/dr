@@ -26,7 +26,7 @@ SECRET_KEY = 'zk=ot9)7hb4p6!iv1gdv1enc&-)@fw(b%t1fwv9ffy*9sg5ujx'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*","https://myupwork.herokuapp.com/"]
+ALLOWED_HOSTS = ["*","https://myupwork.herokuapp.com/",'127.0.0.1','0.0.0.0']
 
 
 # Application definition
@@ -152,7 +152,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 
 # Extra places for collectstatic to find static files.
 STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static/'),
+    os.path.join(BASE_DIR, 'static'),
 )
 
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
